@@ -21,6 +21,7 @@
     ./modules/cursor.nix
     ./modules/gtk.nix
     ./modules/eza.nix
+    ./modules/fastfetch.nix
   ];
 
   home.packages = with pkgs; [
@@ -32,7 +33,6 @@
     hyprpaper
     waybar
     quickshell
-    fastfetch
     bluetui
     blueman # The standard GTK Bluetooth manager (GUI)
     bluez # Core Bluetooth utilities (includes bluetoothctl)
