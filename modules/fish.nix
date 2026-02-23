@@ -5,6 +5,9 @@
     enable = true;
     shellAliases = {
       btw = "echo I use nixos, btw";
+      ls = "eza --icons --group-directories-first";
+      ll = "eza -lh --icons --git";
+      lt = "eza --tree --icons";
       gs = "git status";
       ga = "git add .";
       gcm = "git commit -m";

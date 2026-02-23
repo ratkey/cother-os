@@ -20,6 +20,7 @@
     ./modules/hypridle.nix
     ./modules/cursor.nix
     ./modules/gtk.nix
+    ./modules/eza.nix
   ];
 
   home.packages = with pkgs; [
