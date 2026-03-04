@@ -22,6 +22,7 @@
     ./modules/gtk.nix
     ./modules/eza.nix
     ./modules/fastfetch.nix
+    ./modules/obsidian.nix
   ];
 
   home.packages = with pkgs; [
@@ -42,10 +43,10 @@
     libnotify # Notification alerts
     yaak # GUI api client
     gemini-cli
-    krita
-    firefox
-    azahar
-    localsend
+    krita # Drawing
+    firefox # Browser
+    azahar # Nintendo 3DS emulator
+    localsend # GUI for sharing files acrross network
   ];
   programs.direnv = {
     enable = true;
