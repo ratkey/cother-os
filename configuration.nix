@@ -64,7 +64,7 @@
     xwayland.enable = true;
   };
 
-  programs.hyprlock.enable = true;
+  # programs.hyprlock.enable = true;
 
   # --- Fonts ---
   fonts.packages = with pkgs; [

@@ -23,6 +23,7 @@
     ./modules/eza.nix
     ./modules/fastfetch.nix
     ./modules/obsidian.nix
+    ./modules/hyprland.nix
   ];
 
   home.packages = with pkgs; [
@@ -43,18 +44,19 @@
     libnotify # Notification alerts
     yaak # GUI api client
     gemini-cli
+    claude-code
     krita # Drawing
     firefox # Browser
     azahar # Nintendo 3DS emulator
     localsend # GUI for sharing files acrross network
     yazi # TUI file manager
+    nwg-displays # GUI for configuring Monitors
   ];
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
   };
   home.file.".config/quickshell/shell.qml".source = ./config/quickshell/shell.qml;
-  home.file.".config/hypr/hyprland.conf".source = ./config/hypr/hyprland.conf;
   home.file.".config/hypr/hyprpaper.conf".text = ''
     preload = /home/cother/walls/wall.jpg
     wallpaper = ,/home/cother/walls/wall.jpg
@@ -65,5 +67,4 @@
       color-scheme = "prefer-dark";
     };
   };
-
 }
