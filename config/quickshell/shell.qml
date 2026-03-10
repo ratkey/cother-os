@@ -27,47 +27,10 @@ ShellRoot {
 
     readonly property string fontName: "JetBrainsMono Nerd Font"
 
-    // Map window class to nerd font icon
-    function getAppIcon(windowClass) {
-        if (!windowClass) return ""
-        let cls = windowClass.toLowerCase()
-        if (cls.includes("kitty") || cls.includes("alacritty") || cls.includes("foot") || cls.includes("terminal") || cls.includes("konsole")) return ""
-        if (cls.includes("firefox") || cls.includes("librewolf")) return ""
-        if (cls.includes("chrome") || cls.includes("chromium") || cls.includes("brave")) return ""
-        if (cls.includes("code") || cls.includes("vscodium")) return "󰨞"
-        if (cls.includes("discord")) return "󰙯"
-        if (cls.includes("spotify")) return ""
-        if (cls.includes("steam")) return ""
-        if (cls.includes("obsidian")) return "󰠮"
-        if (cls.includes("thunar") || cls.includes("nautilus") || cls.includes("dolphin") || cls.includes("files")) return ""
-        if (cls.includes("gimp") || cls.includes("krita")) return ""
-        if (cls.includes("blender")) return "󰂫"
-        if (cls.includes("telegram")) return ""
-        if (cls.includes("slack")) return "󰒱"
-        if (cls.includes("nvim") || cls.includes("neovim") || cls.includes("vim")) return ""
-        if (cls.includes("mpv") || cls.includes("vlc")) return "󰕼"
-        if (cls.includes("zathura") || cls.includes("evince") || cls.includes("pdf")) return ""
-        if (cls.includes("thunderbird") || cls.includes("mail")) return "󰇮"
-        if (cls.includes("vesktop")) return "󰙯"
-        return ""
-    }
-
-    // Get focused window class for a workspace
-    function getWorkspaceWindowClass(workspaceId) {
-        for (let i = 0; i < Hyprland.windows.values.length; i++) {
-            let win = Hyprland.windows.values[i]
-            if (win.workspace && win.workspace.id === workspaceId && win.focused) {
-                return win.wm_class || ""
-            }
-        }
-        // If no focused window, get the first window in workspace
-        for (let i = 0; i < Hyprland.windows.values.length; i++) {
-            let win = Hyprland.windows.values[i]
-            if (win.workspace && win.workspace.id === workspaceId) {
-                return win.wm_class || ""
-            }
-        }
-        return ""
+    // Workspace colors cycling through Gruvbox palette
+    readonly property var wsColors: [red, green, yellow, blue, purple, aqua]
+    function getWsColor(wsId) {
+        return wsColors[(wsId - 1) % wsColors.length]
     }
 
     // --- Background Processes (Timer-driven) ---
@@ -169,19 +132,18 @@ ShellRoot {
                         id: wsButton
                         property int wsId: modelData.id
                         property bool wsActive: modelData.active
-                        property string windowClass: root.getWorkspaceWindowClass(wsId)
-                        property string appIcon: root.getAppIcon(windowClass)
+                        property color wsColor: root.getWsColor(wsId)
                         width: 32; height: 32; radius: 4
-                        color: wsActive ? yellow : bg
-                        border.color: wsActive ? yellow : gray
+                        color: wsActive ? wsColor : bg
+                        border.color: wsActive ? wsColor : gray
                         border.width: 1
 
                         Text {
                             anchors.centerIn: parent
-                            text: wsButton.appIcon !== "" ? wsButton.appIcon : wsButton.wsId
-                            color: wsButton.wsActive ? bg : fg
+                            text: wsButton.wsId
+                            color: wsButton.wsActive ? bg : wsButton.wsColor
                             font.family: root.fontName
-                            font.pixelSize: wsButton.appIcon !== "" ? 16 : 14
+                            font.pixelSize: 14
                             font.bold: wsButton.wsActive
                         }
 
