@@ -20,7 +20,7 @@ nix flake update
 
 - **OS:** NixOS 25.11 (`x86_64-linux`)
 - **Compositor:** [Hyprland](https://hyprland.org/) (Wayland)
-- **Bar:** [Waybar](https://github.com/Alexays/Waybar)
+- **Bar:** [QuickShell](https://quickshell.outfoxxed.me/)
 - **Terminal:** [Kitty](https://sw.kovidgoyal.net/kitty/) & [Fish Shell](https://fishshell.com/)
 - **Editor:** [Neovim](https://neovim.io/) (LazyVim based)
 - **Multiplexers:** [Tmux](https://github.com/tmux/tmux) & [Zellij](https://zellij.dev/)
@@ -32,7 +32,7 @@ nix flake update
 - `configuration.nix`: System-level settings (bootloader, hardware, networking, global packages).
 - `home.nix`: User-level settings via Home Manager (dotfiles, user packages).
 - `modules/`: Modularized configurations for specific applications (Git, Neovim, Fish, etc.).
-- `config/`: Raw configuration files symlinked to `~/.config/` (Hyprland, Waybar, Neovim).
+- `config/`: Raw configuration files symlinked to `~/.config/` (QuickShell, Neovim).
 
 ## ✨ Key Features
 
@@ -41,7 +41,7 @@ nix flake update
   - `wallpaper-selector`: A Rofi-based script to select and set wallpapers.
   - `rofi-power`: A simple power menu for Suspend, Reboot, and Shutdown.
 - **Vim Mode:** Bash is configured with `vi` keybindings.
-- **Hyprland Integration:** Fully configured Wayland environment with `hyprlock`, `hypridle`, and `waybar`.
+- **Hyprland Integration:** Fully configured Wayland environment with `hyprlock`, `hypridle`, and `quickshell`.
 
 ## 📜 Development Conventions
 

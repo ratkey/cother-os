@@ -206,7 +206,6 @@
 
       # Layer rules
       layerrule = [
-        "blur, waybar"
         "blur, quickshell"
         "blur, rofi"
         "ignorezero, rofi"

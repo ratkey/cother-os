@@ -25,7 +25,7 @@ nix flake update
 - `home.nix` - User-level via Home Manager: packages, shell config, module imports
 - `hardware-configuration.nix` - Auto-generated hardware config (do not edit manually)
 - `modules/` - Modularized app configs (git.nix, neovim.nix, fish.nix, tmux.nix, etc.)
-- `config/` - Raw config files symlinked to `~/.config/` (hypr/, waybar/, nvim/)
+- `config/` - Raw config files symlinked to `~/.config/` (quickshell/, nvim/)
 
 Home Manager is integrated as a NixOS module, so `nixos-rebuild switch` applies both system and user changes.
 
@@ -40,7 +40,7 @@ Home Manager is integrated as a NixOS module, so `nixos-rebuild switch` applies 
 
 ## Stack
 
-- **Compositor:** Hyprland (Wayland) with Waybar status bar
+- **Compositor:** Hyprland (Wayland) with QuickShell status bar
 - **Terminal:** Kitty with Fish shell (VI keybindings)
 - **Editor:** Neovim (LazyVim-based, configured in `config/nvim/`)
 - **Multiplexers:** Tmux (primary), Zellij

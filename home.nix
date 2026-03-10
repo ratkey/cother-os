@@ -24,6 +24,7 @@
     ./modules/fastfetch.nix
     ./modules/obsidian.nix
     ./modules/hyprland.nix
+    ./modules/quickshell.nix
   ];
 
   home.packages = with pkgs; [
@@ -33,8 +34,6 @@
     vscode
     brightnessctl
     hyprpaper
-    waybar
-    quickshell
     bluetui
     blueman # The standard GTK Bluetooth manager (GUI)
     bluez # Core Bluetooth utilities (includes bluetoothctl)
@@ -56,12 +55,10 @@
     enable = true;
     nix-direnv.enable = true;
   };
-  home.file.".config/quickshell/shell.qml".source = ./config/quickshell/shell.qml;
   home.file.".config/hypr/hyprpaper.conf".text = ''
     preload = /home/cother/walls/wall.jpg
     wallpaper = ,/home/cother/walls/wall.jpg
   '';
-  home.file.".config/waybar".source = ./config/waybar;
   dconf.settings = {
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
