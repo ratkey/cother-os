@@ -25,6 +25,14 @@ ShellRoot {
     property string wifiText: "Checking..."
     property string batteryText: "󰁹 --%"
 
+    // Wallpaper state
+    property var wallpaperList: []
+    property bool wallpaperPanelVisible: false
+    property string wallpaperDir: "/home/cother/walls"
+    property string lastToggleValue: ""
+    property int selectedWallpaperIndex: 0
+    property int wallpaperColumns: 3
+
     readonly property string fontName: "JetBrainsMono Nerd Font"
 
     // Workspace colors cycling through Gruvbox palette
@@ -94,6 +102,46 @@ ShellRoot {
     }
     Timer { interval: 10000; running: true; repeat: true; onTriggered: batProc.running = true }
 
+    // Wallpaper List Process
+    Process {
+        id: wallpaperListProc
+        command: ["bash", "-c", "ls -1 " + root.wallpaperDir + "/*.{jpg,jpeg,png,gif,webp} 2>/dev/null | sort"]
+        stdout: StdioCollector {
+            onStreamFinished: {
+                let output = this.text.trim()
+                if (output !== "") {
+                    root.wallpaperList = output.split("\n")
+                }
+            }
+        }
+    }
+
+    // Wallpaper Set Process (dynamically set command)
+    Process {
+        id: wallpaperSetProc
+        property string wallpaperPath: ""
+        command: ["swww", "img", wallpaperPath, "--transition-type", "grow", "--transition-pos", "center", "--transition-duration", "1"]
+    }
+
+    // IPC: Watch for toggle signal from Hyprland keybind
+    Process {
+        id: toggleWatchProc
+        command: ["cat", "/tmp/qs-wallpaper-toggle"]
+        stdout: StdioCollector {
+            onStreamFinished: {
+                let val = this.text.trim()
+                if (val !== "" && val !== root.lastToggleValue) {
+                    root.lastToggleValue = val
+                    root.wallpaperPanelVisible = !root.wallpaperPanelVisible
+                    if (root.wallpaperPanelVisible) {
+                        wallpaperListProc.running = true
+                    }
+                }
+            }
+        }
+    }
+    Timer { interval: 100; running: true; repeat: true; onTriggered: toggleWatchProc.running = true }
+
     // Run everything once on launch
     Component.onCompleted: {
         cpuProc.running = true
@@ -101,6 +149,7 @@ ShellRoot {
         volProc.running = true
         wifiProc.running = true
         batProc.running = true
+        wallpaperListProc.running = true
     }
 
     // --- UI Layout ---
@@ -156,6 +205,36 @@ ShellRoot {
             }
 
             Item { Layout.fillHeight: true } // Spacer
+
+            // --- Wallpaper Button ---
+            Rectangle {
+                Layout.alignment: Qt.AlignHCenter
+                Layout.bottomMargin: 8
+                width: 36
+                height: 36
+                radius: 6
+                color: root.wallpaperPanelVisible ? root.yellow : Qt.rgba(40/255, 40/255, 40/255, 0.85)
+                border.color: root.yellow
+                border.width: 1
+
+                Text {
+                    anchors.centerIn: parent
+                    text: "󰸉"
+                    font.family: root.fontName
+                    font.pixelSize: 18
+                    color: root.wallpaperPanelVisible ? root.bg : root.yellow
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        root.wallpaperPanelVisible = !root.wallpaperPanelVisible
+                        if (root.wallpaperPanelVisible) {
+                            wallpaperListProc.running = true
+                        }
+                    }
+                }
+            }
 
             // --- System Indicators (Bottom) ---
             Rectangle {
@@ -306,6 +385,233 @@ ShellRoot {
                     let now = new Date()
                     clockHour.text = now.toLocaleTimeString(Qt.locale(), "hh")
                     clockMin.text = now.toLocaleTimeString(Qt.locale(), "mm")
+                }
+            }
+        }
+    }
+
+    // --- Wallpaper Selector Panel (Full Height, Keyboard Navigable) ---
+    PanelWindow {
+        id: wallpaperPanel
+        visible: root.wallpaperPanelVisible
+        anchors {
+            top: true
+            left: true
+            bottom: true
+        }
+        margins.left: 0
+        implicitWidth: 520
+        color: Qt.rgba(40/255, 40/255, 40/255, 0.50)
+
+        // Reset selection when panel opens
+        onVisibleChanged: {
+            if (visible) {
+                root.selectedWallpaperIndex = 0
+                keyHandler.forceActiveFocus()
+            }
+        }
+
+        // Keyboard handler
+        Item {
+            id: keyHandler
+            focus: true
+            anchors.fill: parent
+
+            Keys.onPressed: (event) => {
+                let cols = root.wallpaperColumns
+                let total = root.wallpaperList.length
+                if (total === 0) return
+
+                if (event.key === Qt.Key_Escape || event.key === Qt.Key_Q) {
+                    root.wallpaperPanelVisible = false
+                    event.accepted = true
+                } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
+                    if (root.selectedWallpaperIndex < total) {
+                        wallpaperSetProc.wallpaperPath = root.wallpaperList[root.selectedWallpaperIndex]
+                        wallpaperSetProc.running = true
+                        root.wallpaperPanelVisible = false
+                    }
+                    event.accepted = true
+                } else if (event.key === Qt.Key_H || event.key === Qt.Key_Left) {
+                    if (root.selectedWallpaperIndex > 0)
+                        root.selectedWallpaperIndex--
+                    event.accepted = true
+                } else if (event.key === Qt.Key_L || event.key === Qt.Key_Right) {
+                    if (root.selectedWallpaperIndex < total - 1)
+                        root.selectedWallpaperIndex++
+                    event.accepted = true
+                } else if (event.key === Qt.Key_K || event.key === Qt.Key_Up) {
+                    if (root.selectedWallpaperIndex >= cols)
+                        root.selectedWallpaperIndex -= cols
+                    event.accepted = true
+                } else if (event.key === Qt.Key_J || event.key === Qt.Key_Down) {
+                    if (root.selectedWallpaperIndex + cols < total)
+                        root.selectedWallpaperIndex += cols
+                    event.accepted = true
+                }
+            }
+        }
+
+        Rectangle {
+            anchors.fill: parent
+            color: "transparent"
+
+            Column {
+                anchors.fill: parent
+                anchors.margins: 12
+                spacing: 12
+
+                // Header (styled like system indicators)
+                Rectangle {
+                    width: parent.width
+                    height: 48
+                    radius: 6
+                    color: Qt.rgba(40/255, 40/255, 40/255, 0.85)
+
+                    // Left side: icon + title
+                    Row {
+                        anchors.left: parent.left
+                        anchors.leftMargin: 14
+                        anchors.verticalCenter: parent.verticalCenter
+                        spacing: 10
+
+                        Text {
+                            text: "󰸉"
+                            font.family: root.fontName
+                            font.pixelSize: 22
+                            color: root.yellow
+                        }
+
+                        Text {
+                            text: "Wallpapers"
+                            font.family: root.fontName
+                            font.pixelSize: 14
+                            font.bold: true
+                            color: root.fg
+                        }
+                    }
+
+                    // Right side: keybind hints
+                    Text {
+                        anchors.right: parent.right
+                        anchors.rightMargin: 14
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: "hjkl:nav  ⏎:select  q:close"
+                        font.family: root.fontName
+                        font.pixelSize: 9
+                        color: root.gray
+                    }
+                }
+
+                // Wallpaper Grid
+                Flickable {
+                    id: wallpaperFlickable
+                    width: parent.width
+                    height: parent.height - 60
+                    contentHeight: wallpaperGrid.height
+                    clip: true
+                    boundsBehavior: Flickable.StopAtBounds
+
+                    // Auto-scroll to keep selection visible
+                    function ensureVisible(index) {
+                        let cols = root.wallpaperColumns
+                        let row = Math.floor(index / cols)
+                        let itemHeight = 120
+                        let itemY = row * itemHeight
+                        if (itemY < contentY) {
+                            contentY = itemY
+                        } else if (itemY + itemHeight > contentY + height) {
+                            contentY = itemY + itemHeight - height
+                        }
+                    }
+
+                    Connections {
+                        target: root
+                        function onSelectedWallpaperIndexChanged() {
+                            wallpaperFlickable.ensureVisible(root.selectedWallpaperIndex)
+                        }
+                    }
+
+                    Grid {
+                        id: wallpaperGrid
+                        width: parent.width
+                        columns: root.wallpaperColumns
+                        spacing: 12
+
+                        Repeater {
+                            model: root.wallpaperList
+
+                            Rectangle {
+                                id: wallpaperItem
+                                property int itemIndex: index
+                                property bool isSelected: root.selectedWallpaperIndex === index
+                                width: 156
+                                height: 108
+                                radius: 8
+                                color: root.bg
+                                border.color: isSelected ? root.yellow : (wallItemArea.containsMouse ? root.aqua : root.gray)
+                                border.width: isSelected ? 3 : (wallItemArea.containsMouse ? 2 : 1)
+                                clip: true
+
+                                // Selection glow effect
+                                Rectangle {
+                                    visible: parent.isSelected
+                                    anchors.fill: parent
+                                    anchors.margins: -4
+                                    radius: 12
+                                    color: "transparent"
+                                    border.color: root.yellow
+                                    border.width: 1
+                                    opacity: 0.5
+                                }
+
+                                Image {
+                                    anchors.fill: parent
+                                    anchors.margins: 3
+                                    source: "file://" + modelData
+                                    fillMode: Image.PreserveAspectCrop
+                                    asynchronous: true
+                                }
+
+                                // Filename overlay
+                                Rectangle {
+                                    anchors.bottom: parent.bottom
+                                    anchors.left: parent.left
+                                    anchors.right: parent.right
+                                    anchors.margins: 3
+                                    height: 24
+                                    radius: 5
+                                    color: Qt.rgba(40/255, 40/255, 40/255, 0.9)
+
+                                    Text {
+                                        anchors.centerIn: parent
+                                        width: parent.width - 10
+                                        text: modelData.split("/").pop().replace(/\.[^/.]+$/, "")
+                                        font.family: root.fontName
+                                        font.pixelSize: 11
+                                        font.bold: wallpaperItem.isSelected
+                                        color: wallpaperItem.isSelected ? root.yellow : root.fg
+                                        elide: Text.ElideMiddle
+                                        horizontalAlignment: Text.AlignHCenter
+                                    }
+                                }
+
+                                MouseArea {
+                                    id: wallItemArea
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: {
+                                        root.selectedWallpaperIndex = index
+                                        wallpaperSetProc.wallpaperPath = modelData
+                                        wallpaperSetProc.running = true
+                                        root.wallpaperPanelVisible = false
+                                    }
+                                    onEntered: root.selectedWallpaperIndex = index
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

@@ -133,7 +133,7 @@
         "$mainMod, M, exit,"
         "$mainMod, E, exec, $fileManager"
         "$mainMod, W, exec, $browser"
-        "$mainMod SHIFT, W, exec, waypaper"
+        "$mainMod SHIFT, W, exec, date +%s%N > /tmp/qs-wallpaper-toggle"
         "$mainMod, V, togglefloating,"
         "$mainMod, R, exec, $menu"
         "$mainMod SHIFT, R, exec, $reload_hyprland"
