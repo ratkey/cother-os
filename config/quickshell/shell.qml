@@ -27,6 +27,49 @@ ShellRoot {
 
     readonly property string fontName: "JetBrainsMono Nerd Font"
 
+    // Map window class to nerd font icon
+    function getAppIcon(windowClass) {
+        if (!windowClass) return ""
+        let cls = windowClass.toLowerCase()
+        if (cls.includes("kitty") || cls.includes("alacritty") || cls.includes("foot") || cls.includes("terminal") || cls.includes("konsole")) return ""
+        if (cls.includes("firefox") || cls.includes("librewolf")) return ""
+        if (cls.includes("chrome") || cls.includes("chromium") || cls.includes("brave")) return ""
+        if (cls.includes("code") || cls.includes("vscodium")) return "󰨞"
+        if (cls.includes("discord")) return "󰙯"
+        if (cls.includes("spotify")) return ""
+        if (cls.includes("steam")) return ""
+        if (cls.includes("obsidian")) return "󰠮"
+        if (cls.includes("thunar") || cls.includes("nautilus") || cls.includes("dolphin") || cls.includes("files")) return ""
+        if (cls.includes("gimp") || cls.includes("krita")) return ""
+        if (cls.includes("blender")) return "󰂫"
+        if (cls.includes("telegram")) return ""
+        if (cls.includes("slack")) return "󰒱"
+        if (cls.includes("nvim") || cls.includes("neovim") || cls.includes("vim")) return ""
+        if (cls.includes("mpv") || cls.includes("vlc")) return "󰕼"
+        if (cls.includes("zathura") || cls.includes("evince") || cls.includes("pdf")) return ""
+        if (cls.includes("thunderbird") || cls.includes("mail")) return "󰇮"
+        if (cls.includes("vesktop")) return "󰙯"
+        return ""
+    }
+
+    // Get focused window class for a workspace
+    function getWorkspaceWindowClass(workspaceId) {
+        for (let i = 0; i < Hyprland.windows.values.length; i++) {
+            let win = Hyprland.windows.values[i]
+            if (win.workspace && win.workspace.id === workspaceId && win.focused) {
+                return win.wm_class || ""
+            }
+        }
+        // If no focused window, get the first window in workspace
+        for (let i = 0; i < Hyprland.windows.values.length; i++) {
+            let win = Hyprland.windows.values[i]
+            if (win.workspace && win.workspace.id === workspaceId) {
+                return win.wm_class || ""
+            }
+        }
+        return ""
+    }
+
     // --- Background Processes (Timer-driven) ---
 
     // CPU Process
@@ -103,103 +146,200 @@ ShellRoot {
         anchors {
             top: true
             left: true
-            right: true
+            bottom: true
         }
-        height: 32
-        color: bg
+        implicitWidth: 48
+        color: Qt.rgba(40/255, 40/255, 40/255, 0.50)
 
-        RowLayout {
+        ColumnLayout {
             anchors.fill: parent
-            anchors.leftMargin: 12
-            anchors.rightMargin: 12
-            spacing: 16
+            anchors.topMargin: 8
+            anchors.bottomMargin: 8
+            spacing: 0
 
-            // --- Workspaces ---
-            Row {
-                Layout.alignment: Qt.AlignLeft
+            // --- Workspaces (Top) ---
+            Column {
+                Layout.alignment: Qt.AlignHCenter
                 spacing: 6
 
                 Repeater {
                     model: Hyprland.workspaces
-                    
+
                     Rectangle {
-                        width: 24; height: 24; radius: 4
-                        color: modelData.active ? yellow : bg
-                        border.color: modelData.active ? yellow : gray
+                        id: wsButton
+                        property int wsId: modelData.id
+                        property bool wsActive: modelData.active
+                        property string windowClass: root.getWorkspaceWindowClass(wsId)
+                        property string appIcon: root.getAppIcon(windowClass)
+                        width: 32; height: 32; radius: 4
+                        color: wsActive ? yellow : bg
+                        border.color: wsActive ? yellow : gray
                         border.width: 1
 
                         Text {
                             anchors.centerIn: parent
-                            text: modelData.id
-                            color: modelData.active ? bg : fg
+                            text: wsButton.appIcon !== "" ? wsButton.appIcon : wsButton.wsId
+                            color: wsButton.wsActive ? bg : fg
                             font.family: root.fontName
-                            font.pixelSize: 14
-                            font.bold: modelData.active
+                            font.pixelSize: wsButton.appIcon !== "" ? 16 : 14
+                            font.bold: wsButton.wsActive
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: Hyprland.dispatch("workspace " + wsButton.wsId)
                         }
                     }
                 }
             }
 
-            Item { Layout.fillWidth: true } // Spacer
+            Item { Layout.fillHeight: true } // Spacer
 
-            // --- CPU & RAM Usage ---
-            Row {
-                spacing: 12
-                Text { 
-                    text: "󰍛 CPU: " + root.cpuText 
-                    font.family: root.fontName
-                    color: aqua 
-                    font.pixelSize: 14
-                }
-                Text { 
-                    text: "󰘚 RAM: " + root.ramText 
-                    font.family: root.fontName
-                    color: blue 
-                    font.pixelSize: 14
+            // --- System Indicators (Bottom) ---
+            Rectangle {
+                Layout.alignment: Qt.AlignHCenter
+                width: 40
+                height: indicatorColumn.height + 16
+                radius: 6
+                color: Qt.rgba(40/255, 40/255, 40/255, 0.85)
+
+                Column {
+                    id: indicatorColumn
+                    anchors.centerIn: parent
+                    spacing: 8
+
+                    // CPU
+                    Column {
+                        spacing: 2
+                        Text {
+                            text: "󰍛"
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            font.family: root.fontName
+                            color: aqua
+                            font.pixelSize: 18
+                        }
+                        Text {
+                            text: root.cpuText
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            font.family: root.fontName
+                            color: aqua
+                            font.pixelSize: 10
+                        }
+                    }
+
+                    // RAM
+                    Column {
+                        spacing: 2
+                        Text {
+                            text: "󰘚"
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            font.family: root.fontName
+                            color: blue
+                            font.pixelSize: 18
+                        }
+                        Text {
+                            text: root.ramText
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            font.family: root.fontName
+                            color: blue
+                            font.pixelSize: 10
+                        }
+                    }
+
+                    // Wi-Fi
+                    Column {
+                        spacing: 2
+                        Text {
+                            text: root.wifiText === "Disconnected" ? "󰖪" : "󰖩"
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            font.family: root.fontName
+                            color: root.wifiText === "Disconnected" ? gray : green
+                            font.pixelSize: 18
+                        }
+                    }
+
+                    // Volume
+                    Column {
+                        spacing: 2
+                        Text {
+                            text: root.volumeText === "0%" ? "󰖁" : "󰕾"
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            font.family: root.fontName
+                            color: purple
+                            font.pixelSize: 18
+                        }
+                        Text {
+                            text: root.volumeText
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            font.family: root.fontName
+                            color: purple
+                            font.pixelSize: 10
+                        }
+                    }
+
+                    // Battery
+                    Column {
+                        property int batLevel: parseInt(root.batteryText.replace(/[^0-9]/g, '')) || 0
+                        property bool isCharging: root.batteryText.includes("󰂄")
+                        spacing: 2
+                        Text {
+                            text: parent.isCharging ? "󰂄" : (parent.batLevel < 20 ? "󰁺" : "󰁹")
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            font.family: root.fontName
+                            color: (!parent.isCharging && parent.batLevel < 20) ? red : fg
+                            font.pixelSize: 18
+                        }
+                        Text {
+                            text: parent.batLevel + "%"
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            font.family: root.fontName
+                            color: (!parent.isCharging && parent.batLevel < 20) ? red : fg
+                            font.pixelSize: 10
+                        }
+                    }
                 }
             }
 
-            // --- Network & Volume ---
-            Row {
-                spacing: 12
-                Text { 
-                    text: "󰖩 " + root.wifiText 
-                    font.family: root.fontName
-                    color: green 
-                    font.pixelSize: 14
-                }
-                Text { 
-                    text: "󰕾 " + root.volumeText 
-                    font.family: root.fontName
-                    color: purple 
-                    font.pixelSize: 14
-                }
-            }
+            // --- Clock (Bottom) ---
+            Column {
+                Layout.alignment: Qt.AlignHCenter
+                Layout.topMargin: 12
+                spacing: 2
 
-            // --- Battery ---
-            Text {
-                text: root.batteryText
-                font.family: root.fontName
-                color: parseInt(root.batteryText.replace(/[^0-9]/g, '')) < 20 && !root.batteryText.includes("󰂄") ? red : fg 
-                font.pixelSize: 14
-            }
+                Text {
+                    id: clockHour
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    color: yellow
+                    font.family: root.fontName
+                    font.pixelSize: 14
+                    font.bold: true
+                }
 
-            // --- Time ---
-            Text {
-                id: clock
-                color: yellow
-                font.family: root.fontName
-                font.pixelSize: 14
-                font.bold: true
+                Text {
+                    id: clockMin
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    color: yellow
+                    font.family: root.fontName
+                    font.pixelSize: 14
+                    font.bold: true
+                }
 
                 Timer {
                     interval: 1000
                     running: true
                     repeat: true
-                    onTriggered: clock.text = new Date().toLocaleTimeString(Qt.locale(), "hh:mm AP")
+                    onTriggered: {
+                        let now = new Date()
+                        clockHour.text = now.toLocaleTimeString(Qt.locale(), "hh")
+                        clockMin.text = now.toLocaleTimeString(Qt.locale(), "mm")
+                    }
                 }
-                
-                Component.onCompleted: clock.text = new Date().toLocaleTimeString(Qt.locale(), "hh:mm AP")
+
+                Component.onCompleted: {
+                    let now = new Date()
+                    clockHour.text = now.toLocaleTimeString(Qt.locale(), "hh")
+                    clockMin.text = now.toLocaleTimeString(Qt.locale(), "mm")
+                }
             }
         }
     }
