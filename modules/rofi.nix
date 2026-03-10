@@ -117,48 +117,7 @@
   };
 
   home.packages = with pkgs;
-    [ (writeShellScriptBin "wallpaper-selector" ''
-      #!/usr/bin/env bash
-      WALLPAPER_DIR="$HOME/walls"
-
-      if [ ! -d "$WALLPAPER_DIR" ]; then
-        mkdir -p "$WALLPAPER_DIR"
-        notify-send "Wallpaper Selector" "Created directory $WALLPAPER_DIR. Put your wallpapers there."
-        exit 1
-      fi
-
-      # Select wallpaper using rofi with dmenu mode
-      # Exclude existing 'wall.*' files from the list to avoid duplication/confusion
-      SELECTED=$(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) -not -name "wall.*" | sort | while read -r img; do
-        echo -en "$(basename "$img")\0icon\x1f$img\n"
-      done | rofi -dmenu -p "Select Wallpaper" -show-icons -theme-str 'window { width: 60%; } listview { columns: 4; lines: 3; spacing: 20px; } element { orientation: vertical; padding: 10px; } element-icon { size: 120px; horizontal-align: 0.5; } element-text { horizontal-align: 0.5; }')
-
-      if [ -n "$SELECTED" ]; then
-        # Find the full path of the selected file
-        SOURCE_PATH=$(find "$WALLPAPER_DIR" -name "$SELECTED" -print -quit)
-
-        if [ -z "$SOURCE_PATH" ]; then
-            notify-send "Error" "Could not find source image for $SELECTED"
-            exit 1
-        fi
-
-        # Get extension
-        EXT="''${SELECTED##*.}"
-        TARGET="$WALLPAPER_DIR/wall.$EXT"
-
-        # Remove old wall files
-        rm -f "$WALLPAPER_DIR"/wall.*
-
-        # Copy new wallpaper to standard location
-        cp "$SOURCE_PATH" "$TARGET"
-
-        # Set wallpaper with swww
-        swww img "$TARGET" --transition-type grow --transition-pos center
-
-        notify-send "Wallpaper" "Set to $SELECTED"
-      fi
-    '')
-    (writeShellScriptBin "rofi-power" ''
+    [ (writeShellScriptBin "rofi-power" ''
       #!/usr/bin/env bash
       entries="Suspend\nReboot\nShutdown"
       selected=$(echo -e "$entries" | rofi -dmenu -p "Power Menu")

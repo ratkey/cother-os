@@ -21,7 +21,7 @@
         "$terminal"
         "qs &"
         "swww-daemon &"
-        "swww img /home/cother/walls/wall.jpg"
+        "waypaper --restore"
         "hypridle &"
         "hyprlock"
       ];
@@ -133,7 +133,7 @@
         "$mainMod, M, exit,"
         "$mainMod, E, exec, $fileManager"
         "$mainMod, W, exec, $browser"
-        "$mainMod SHIFT, W, exec, wallpaper-selector"
+        "$mainMod SHIFT, W, exec, waypaper"
         "$mainMod, V, togglefloating,"
         "$mainMod, R, exec, $menu"
         "$mainMod SHIFT, R, exec, $reload_hyprland"

@@ -50,6 +50,7 @@
     localsend # GUI for sharing files acrross network
     yazi # TUI file manager
     nwg-displays # GUI for configuring Monitors
+    waypaper # GUI wallpaper selector for swww
   ];
   programs.direnv = {
     enable = true;
@@ -60,4 +61,14 @@
       color-scheme = "prefer-dark";
     };
   };
+
+  home.file.".config/waypaper/config.ini".text = ''
+    [Settings]
+    folder = ~/walls
+    backend = swww
+    fill = fill
+    sort = name
+    color = #282828
+    subfolders = false
+  '';
 }
