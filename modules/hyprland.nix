@@ -38,11 +38,11 @@
 
       # General
       general = {
-        gaps_in = 4;
+        gaps_in = 2;
         gaps_out = 4;
-        border_size = 2;
-        "col.active_border" = "rgba(fabd2fee) rgba(98971aee) 45deg";
-        "col.inactive_border" = "rgba(504945ee)";
+        border_size = 1;
+        "col.active_border" = "rgba(ffffffee) rgba(000000ee) 45deg";
+        "col.inactive_border" = "rgba(000000ee)";
         resize_on_border = true;
         allow_tearing = false;
         layout = "dwindle";
@@ -50,15 +50,15 @@
 
       # Decoration
       decoration = {
-        rounding = 5;
-        rounding_power = 4;
+        rounding = 0;
+        rounding_power = 1;
         active_opacity = 1.0;
         inactive_opacity = 1.0;
 
         blur = {
           enabled = true;
           size = 3;
-          passes = 1;
+          passes = 3;
           vibrancy = 0.1696;
         };
       };
@@ -66,14 +66,14 @@
       # Animations
       animations = {
         enabled = true;
-        bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
+        bezier = "subtleCurve, 0.25, 1, 0.5, 1";
         animation = [
-          "windows, 1, 7, myBezier"
-          "windowsOut, 1, 7, default, popin 80%"
-          "border, 1, 10, default"
-          "borderangle, 1, 8, default"
-          "fade, 1, 7, default"
-          "workspaces, 1, 6, default, slidevert"
+          "windows, 1, 4, subtleCurve"
+          "windowsOut, 1, 3, subtleCurve, popin 93%" 
+          "border, 1, 5, default"
+          "borderangle, 1, 5, default"
+          "fade, 1, 4, default"
+          "workspaces, 1, 4, subtleCurve, slide" 
         ];
       };
 
