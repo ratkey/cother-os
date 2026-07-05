@@ -3,6 +3,12 @@
     ./hardware-configuration.nix
   ];
 
+  # Enable Docker virtualisation aemon
+  virtualisation.docker = {
+    enable = true;
+    package = pkgs.docker_29;
+  };
+
   # --- Bootloader Configuration ---
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.grub = {
@@ -47,7 +53,7 @@
   users.users.cother = {
     isNormalUser = true;
     description = "cother";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [ ];
   };
 

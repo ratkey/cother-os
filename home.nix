@@ -28,6 +28,7 @@
   ];
 
   home.packages = with pkgs; [
+    docker-compose
     wl-clipboard
     cliphist
     pamixer
