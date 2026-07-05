@@ -13,7 +13,7 @@
   };
 
   # --- Networking ---
-  networking.hostName = "nixos";
+  networking.hostName = "CotherOS";
   networking.networkmanager.enable = true;
   networking.firewall.allowedTCPPorts = [ 53317 ];
   networking.firewall.allowedUDPPorts = [ 53317 ];

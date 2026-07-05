@@ -1,5 +1,5 @@
 {
-  description = "NixOS cother system";
+  description = "NixOS cother system v2";
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-25.11";
     home-manager = {
@@ -13,7 +13,7 @@
   };
 
   outputs = { nixpkgs, home-manager, ... }@inputs: {
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.CotherOS = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
         ./configuration.nix
