@@ -22,7 +22,7 @@
         "qs &"
         "swww-daemon &"
         "waypaper --restore"
-        "hypridle &"
+        # "hypridle &"
         # "hyprlock"
       ];
 
@@ -58,15 +58,21 @@
         blur = {
           enabled = true;
           size = 3;
-          passes = 3;
+          passes = 2;
           vibrancy = 0.1696;
         };
       };
 
-      # Animations
+
+# Animations
       animations = {
         enabled = true;
-        bezier = "subtleCurve, 0.25, 1, 0.5, 1";
+        # Curves
+        bezier = [
+          "subtleCurve, 0.25, 1, 0.5, 1"
+          # An elegant, cinematic ease-out curve perfect for UI panels
+          "panelEase, 0.05, 0.9, 0.1, 1.0"
+        ];
         animation = [
           "windows, 1, 4, subtleCurve"
           "windowsOut, 1, 3, subtleCurve, popin 93%" 
@@ -74,8 +80,25 @@
           "borderangle, 1, 5, default"
           "fade, 1, 4, default"
           "workspaces, 1, 4, subtleCurve, slide" 
+          # This controls panels/menus globally. 
+          # It slides them smoothly from the top using our new curve.
+          "layers, 1, 4, panelEase, slide top"
         ];
       };
+
+      # Animations
+      # animations = {
+      #   enabled = true;
+      #   bezier = "subtleCurve, 0.25, 1, 0.5, 1";
+      #   animation = [
+      #     "windows, 1, 4, subtleCurve"
+      #     "windowsOut, 1, 3, subtleCurve, popin 93%" 
+      #     "border, 1, 5, default"
+      #     "borderangle, 1, 5, default"
+      #     "fade, 1, 4, default"
+      #     "workspaces, 1, 4, subtleCurve, slide" 
+      #   ];
+      # };
 
       # Layouts
       dwindle = {
@@ -215,6 +238,9 @@
         "blur, quickshell"
         "blur, rofi"
         "ignorezero, rofi"
+        # Forces an elegant fade effect combined with our global slide
+        "animation fade, rofi"
+        "animation fade, quickshell"
       ];
     };
   };

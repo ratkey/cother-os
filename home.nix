@@ -16,8 +16,8 @@
     ./modules/brave.nix
     ./modules/btop.nix
     ./modules/nautilus.nix
-    ./modules/hyprlock.nix
-    ./modules/hypridle.nix
+    # ./modules/hyprlock.nix
+    # ./modules/hypridle.nix
     ./modules/cursor.nix
     ./modules/gtk.nix
     ./modules/eza.nix
