@@ -2,6 +2,6 @@
   programs.quickshell = {
     enable = true;
     activeConfig = null;
-    configs."shell.qml" = ../config/quickshell/shell.qml;
+    configs."shell.qml" = ../config/quickshell/shellv2.qml;
   };
 }

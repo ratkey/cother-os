@@ -19,7 +19,7 @@
   networking.firewall.allowedUDPPorts = [ 53317 ];
 
   # --- Localization & Timezone ---
-  time.timeZone = "America/Mexico_City";
+  time.timeZone = "America/Mazatlan";
   i18n.defaultLocale = "en_US.UTF-8";
 
   i18n.extraLocaleSettings = {
