@@ -9,10 +9,11 @@ PanelWindow {
     id: root
 
     // Theme
-    property color colBg: "#1a1b26"
-    property color colFg: "#a9b1d6"
-    property color colGray: "#808080"
-    property color colMuted: "#444b6a"
+    property color colBg: "#000000"
+    property color colFg: "#ffffff"
+    property color colPrimary: "#ffffff"
+    property color colSecondary: "#c9c9c9"
+    property color colMuted: "#808080"
     property color colCyan: "#0db9d7"
     property color colBlue: "#7aa2f7"
     property color colYellow: "#e0af68"
@@ -57,7 +58,7 @@ PanelWindow {
               width: isActive ? 12 : 8
               height: width
               radius: width / 2
-              color: isActive ? root.colFg : (ws ? root.colBlue : root.colMuted)
+              color: isActive ? root.colPrimary : (ws ? root.colSecondary : root.colMuted)
               Layout.alignment: Qt.AlignVCenter
 
               MouseArea {
