@@ -9,7 +9,7 @@
     ./modules/kitty.nix
     ./modules/neovim.nix
     ./modules/tmux.nix
-    ./modules/zellij.nix
+    # ./modules/zellij.nix
     ./modules/rofi.nix
     ./modules/dunst.nix
     ./modules/git.nix
