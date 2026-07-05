@@ -3,6 +3,6 @@
     enable = true;
     package = inputs.quickshell.packages.${pkgs.system}.default;
     activeConfig = null;
-    configs."shell.qml" = ../config/quickshell/shellv2.qml;
+    configs."shell.qml" = ../config/quickshell/shellv.qml;
   };
 }
