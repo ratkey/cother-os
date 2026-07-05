@@ -64,7 +64,7 @@
       };
 
 
-# Animations
+      # Animations
       animations = {
         enabled = true;
         # Curves
@@ -85,20 +85,6 @@
           "layers, 1, 4, panelEase, slide top"
         ];
       };
-
-      # Animations
-      # animations = {
-      #   enabled = true;
-      #   bezier = "subtleCurve, 0.25, 1, 0.5, 1";
-      #   animation = [
-      #     "windows, 1, 4, subtleCurve"
-      #     "windowsOut, 1, 3, subtleCurve, popin 93%" 
-      #     "border, 1, 5, default"
-      #     "borderangle, 1, 5, default"
-      #     "fade, 1, 4, default"
-      #     "workspaces, 1, 4, subtleCurve, slide" 
-      #   ];
-      # };
 
       # Layouts
       dwindle = {
