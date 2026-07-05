@@ -10,5 +10,14 @@ return {
     view_options = {
       show_hidden = true,
     },
+    float = {
+      padding = 2,
+      max_width = 99,
+      max_height = 100,
+      border = "rounded",
+      win_options = {
+        winblend = 0,
+      },
+    },
   },
 }
