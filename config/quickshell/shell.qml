@@ -5,104 +5,117 @@ import Quickshell.Hyprland
 import QtQuick
 import QtQuick.Layouts
 
-PanelWindow {
-    id: root
+Variants {
+  id: multiScreenRoot
 
-    // Theme
-    property color colBg: "#000000"
-    property color colFg: "#ffffff"
-    property color colPrimary: "#ffffff"
-    property color colSecondary: "#c9c9c9"
-    property color colMuted: "#404040"
-    property color colCyan: "#0db9d7"
-    property color colBlue: "#7aa2f7"
-    property color colYellow: "#e0af68"
-    property string fontFamily: "JetBrainsMono Nerd Font"
-    property int fontSize: 14
+  model: Quickshell.screens
 
-    SysMonitor {
-      id: sys
-    }
+  delegate: Component{
 
-    // System data
-    property int memUsage: 0
-    property var lastCpuIdle: 0
-    property var lastCpuTotal: 0
+  PanelWindow {
+      id: root
 
-    // Processes and timers here...
+      required property var modelData
+      screen: modelData
 
-    anchors.top: true
-    anchors.left: true
-    anchors.right: true
-    implicitHeight: 30
-    color: root.colBg
+      // Theme
+      property color colBg: "#000000"
+      property color colFg: "#ffffff"
+      property color colPrimary: "#ffffff"
+      property color colSecondary: "#c9c9c9"
+      property color colMuted: "#404040"
+      property color colCyan: "#0db9d7"
+      property color colBlue: "#7aa2f7"
+      property color colYellow: "#e0af68"
+      property string fontFamily: "JetBrainsMono Nerd Font"
+      property int fontSize: 14
 
-    RowLayout {
-        anchors.fill: parent
-        anchors.margins: 8
-        spacing: 8
+      SysMonitor {
+        id: sys
+      }
 
-        // Workspaces
-        Repeater {
-          model: 9
-          Item { 
-            property var ws: Hyprland.workspaces.values.find(w => w.id === index + 1)
-            property bool isActive: Hyprland.focusedWorkspace?.id === (index + 1)
+      // System data
+      property int memUsage: 0
+      property var lastCpuIdle: 0
+      property var lastCpuTotal: 0
 
-            implicitWidth: 15
-            implicitHeight: 10
-            Layout.alignment: Qt.AlignVCenter
-            Layout.bottomMargin: 4
+      // Processes and timers here...
 
-            Rectangle {
-              anchors.centerIn: parent
-              width: parent.isActive ? 20 : 14
-              height: parent.isActive ? 10 : 7
-              radius: width / 2
-              color: isActive ? root.colPrimary : (ws ? root.colSecondary : root.colMuted)
+      anchors.top: true
+      anchors.left: true
+      anchors.right: true
+      implicitHeight: 30
+      color: root.colBg
 
-              MouseArea {
-                  anchors.fill: parent
-                  anchors.margins: -4
-                  onClicked: Hyprland.dispatch("workspace " + (index + 1))
-              }
-            } 
-          }
-        }
+      RowLayout {
+          anchors.fill: parent
+          anchors.margins: 8
+          spacing: 8
 
-        // Space between
-        Item { Layout.fillWidth: true }
+          // Workspaces
+          Repeater {
+            model: 9
+            Item { 
+              property var ws: Hyprland.workspaces.values.find(w => w.id === index + 1)
+              property bool isActive: Hyprland.focusedWorkspace?.id === (index + 1)
 
-        // CPU
-        Text {
-            text: "CPU: " + sys.cpuUsage + "%"
-            color: root.colPrimary
-            font { family: root.fontFamily; pixelSize: root.fontSize; bold: true }
-        }
+              implicitWidth: 15
+              implicitHeight: 10
+              Layout.alignment: Qt.AlignVCenter
+              Layout.bottomMargin: 4
 
-        Rectangle { width: 1; height: 16; color: root.colMuted }
+              Rectangle {
+                anchors.centerIn: parent
+                width: parent.isActive ? 20 : 14
+                height: parent.isActive ? 10 : 7
+                radius: width / 2
+                color: isActive ? root.colPrimary : (ws ? root.colSecondary : root.colMuted)
 
-        // Memory
-        Text {
-            text: "Mem: " + sys.memUsage + "%"
-            color: root.colPrimary
-            font { family: root.fontFamily; pixelSize: root.fontSize; bold: true }
-        }
-
-        Rectangle { width: 1; height: 16; color: root.colMuted }
-
-        // Clock
-        Text {
-            id: clock
-            color: root.colPrimary
-            font { family: root.fontFamily; pixelSize: root.fontSize; bold: true }
-            text: Qt.formatDateTime(new Date(), "ddd, MMM dd - hh:mm:a")
-            Timer {
-                interval: 1000
-                running: true
-                repeat: true
-                onTriggered: clock.text = Qt.formatDateTime(new Date(), "ddd, MMM dd - hh:mm:a")
+                MouseArea {
+                    anchors.fill: parent
+                    anchors.margins: -4
+                    onClicked: Hyprland.dispatch("workspace " + (index + 1))
+                }
+              } 
             }
-        }
-    }
+          }
+
+          // Space between
+          Item { Layout.fillWidth: true }
+
+          // CPU
+          Text {
+              text: "CPU: " + sys.cpuUsage + "%"
+              color: root.colPrimary
+              font { family: root.fontFamily; pixelSize: root.fontSize; bold: true }
+          }
+
+          Rectangle { width: 1; height: 16; color: root.colMuted }
+
+          // Memory
+          Text {
+              text: "Mem: " + sys.memUsage + "%"
+              color: root.colPrimary
+              font { family: root.fontFamily; pixelSize: root.fontSize; bold: true }
+          }
+
+          Rectangle { width: 1; height: 16; color: root.colMuted }
+
+          // Clock
+          Text {
+              id: clock
+              color: root.colPrimary
+              font { family: root.fontFamily; pixelSize: root.fontSize; bold: true }
+              text: Qt.formatDateTime(new Date(), "ddd, MMM dd - hh:mm:a")
+              Timer {
+                  interval: 1000
+                  running: true
+                  repeat: true
+                  onTriggered: clock.text = Qt.formatDateTime(new Date(), "ddd, MMM dd - hh:mm:a")
+              }
+          }
+      }
+  }
+  }
 }
+
