@@ -22,19 +22,23 @@
       function fish_mode_prompt
         switch $fish_bind_mode
           case default
-            set_color --bold --background fe8019 282828
+            # Normal Mode: Solid Medium Gray
+            set_color --bold --background 767676 1c1c1c
             echo ' N '
             set_color normal
           case insert
-            set_color --bold --background b8bb26 282828
+            # Insert Mode: Bright White/Light Gray (Highly visible)
+            set_color --bold --background e4e4e4 1c1c1c
             echo ' I '
             set_color normal
           case visual
-            set_color --bold --background fabd2f 282828
+            # Visual Mode: Muted Darker Gray
+            set_color --bold --background 4e4e4e ffffff
             echo ' V '
             set_color normal
           case replace_one
-            set_color --bold --background d3869b 282828
+            # Replace Mode: Very Dark Charcoal
+            set_color --bold --background 303030 ffffff
             echo ' R '
             set_color normal
         end
@@ -45,6 +49,6 @@
 
   programs.oh-my-posh = {
     enable = true;
-    useTheme = "gruvbox";
+    configFile = ../config/oh-my-posh/theme.json;
   };
 }
