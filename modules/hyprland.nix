@@ -3,8 +3,27 @@
     enable = true;
 
     settings = {
-      # Monitor
-      monitor = "eDP-1,1680x1050@60,0x0,1.0";
+      # --- Monitor Layout ---
+      # External Monitor (Left display)
+      monitor = [
+        "HDMI-A-1, 1920x1080@60, 0x0, 1"
+        "eDP-1, 2240x1400@60, 1920x0, 1"
+      ];
+
+      # --- Workspace Mapping ---
+      # Pins Workspaces 1-5 to your Left Monitor, 6-10 to your Laptop screen
+      workspace = [
+        "1, monitor:HDMI-A-1, default:true"
+        "2, monitor:HDMI-A-1"
+        "3, monitor:HDMI-A-1"
+        "4, monitor:HDMI-A-1"
+        "5, monitor:HDMI-A-1"
+        "6, monitor:eDP-1, default:true"
+        "7, monitor:eDP-1"
+        "8, monitor:eDP-1"
+        "9, monitor:eDP-1"
+        "10, monitor:eDP-1"
+      ];
 
       # Programs
       "$terminal" = "kitty";
@@ -21,9 +40,7 @@
         "$terminal"
         "qs &"
         "swww-daemon &"
-        "waypaper --restore"
-        # "hypridle &"
-        # "hyprlock"
+        "sleep 0.5 && swww img -o HDMI-A-1 ~/walls/bw01.jpg && swww img -o eDP-1 ~/walls/bw01.jpg"
       ];
 
       # Environment variables
@@ -63,14 +80,11 @@
         };
       };
 
-
       # Animations
       animations = {
         enabled = true;
-        # Curves
         bezier = [
           "subtleCurve, 0.25, 1, 0.5, 1"
-          # An elegant, cinematic ease-out curve perfect for UI panels
           "panelEase, 0.05, 0.9, 0.1, 1.0"
         ];
         animation = [
@@ -80,8 +94,6 @@
           "borderangle, 1, 5, default"
           "fade, 1, 4, default"
           "workspaces, 1, 4, subtleCurve, slide" 
-          # This controls panels/menus globally. 
-          # It slides them smoothly from the top using our new curve.
           "layers, 1, 4, panelEase, slide top"
         ];
       };
@@ -106,9 +118,6 @@
       input = {
         kb_layout = "us";
         kb_variant = "intl";
-        kb_model = "";
-        kb_options = "";
-        kb_rules = "";
         follow_mouse = 1;
         sensitivity = 0;
         repeat_rate = 35;
@@ -147,19 +156,19 @@
         "$mainMod, R, exec, $menu"
         "$mainMod SHIFT, R, exec, $reload_hyprland"
 
-        # Focus movement (vim-style)
-        "$mainMod, l, movefocus, l"
-        "$mainMod, h, movefocus, r"
+        # Corrected Focus movement (Vim style: h=left, l=right)
+        "$mainMod, h, movefocus, l"
+        "$mainMod, l, movefocus, r"
         "$mainMod, k, movefocus, u"
         "$mainMod, j, movefocus, d"
 
-        # Window movement
-        "$mainMod SHIFT, l, movewindow, r"
+        # Corrected Window movement (Vim style: h=left, l=right)
         "$mainMod SHIFT, h, movewindow, l"
+        "$mainMod SHIFT, l, movewindow, r"
         "$mainMod SHIFT, k, movewindow, u"
         "$mainMod SHIFT, j, movewindow, d"
 
-        # Workspaces
+        # Workspaces Navigation
         "$mainMod, 1, workspace, 1"
         "$mainMod, 2, workspace, 2"
         "$mainMod, 3, workspace, 3"
@@ -171,7 +180,7 @@
         "$mainMod, 9, workspace, 9"
         "$mainMod, 0, workspace, 10"
 
-        # Move to workspace
+        # Move windows to workspace
         "$mainMod SHIFT, 1, movetoworkspace, 1"
         "$mainMod SHIFT, 2, movetoworkspace, 2"
         "$mainMod SHIFT, 3, movetoworkspace, 3"
@@ -191,7 +200,7 @@
         "$mainMod ALT, L, exec, hyprlock"
       ];
 
-      # Repeat bindings (volume/brightness)
+      # Repeat bindings
       bindle = [
         ", XF86AudioRaiseVolume, exec, pamixer -i 5"
         ", XF86AudioLowerVolume, exec, pamixer -d 5"
@@ -199,7 +208,7 @@
         ", XF86MonBrightnessDown, exec, brightnessctl set 5%-"
       ];
 
-      # Locked bindings (work when locked)
+      # Locked bindings
       bindl = [
         ", XF86AudioMute, exec, pamixer -t"
         ", XF86AudioMicMute, exec, pamixer --default-source -t"
@@ -213,7 +222,6 @@
 
       # Window rules
       windowrulev2 = [
-        # Godot: maximize main editor, float popups/dialogs
         "maximize, class:^(Godot)$, title:^(Godot)"
         "float, class:^(Godot)$, title:^(?!Godot)"
         "suppressevent maximize, class:.*"
@@ -224,7 +232,6 @@
         "blur, quickshell"
         "blur, rofi"
         "ignorezero, rofi"
-        # Forces an elegant fade effect combined with our global slide
         "animation fade, rofi"
         "animation fade, quickshell"
       ];
