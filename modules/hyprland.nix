@@ -3,26 +3,26 @@
     enable = true;
 
     settings = {
-      # --- Monitor Layout ---
+# --- Monitor Layout ---
       # External Monitor (Left display)
       monitor = [
         "HDMI-A-1, 1920x1080@60, 0x0, 1"
         "eDP-1, 2240x1400@60, 1920x0, 1"
       ];
 
-      # --- Workspace Mapping ---
-      # Pins Workspaces 1-5 to your Left Monitor, 6-10 to your Laptop screen
+      # --- Dynamic Workspace Allocation ---
+      # Pins 1 through 8 strictly to the external monitor if it is connected.
+      # Workspace 9 stays on the laptop monitor.
       workspace = [
         "1, monitor:HDMI-A-1, default:true"
         "2, monitor:HDMI-A-1"
         "3, monitor:HDMI-A-1"
         "4, monitor:HDMI-A-1"
         "5, monitor:HDMI-A-1"
-        "6, monitor:eDP-1, default:true"
-        "7, monitor:eDP-1"
-        "8, monitor:eDP-1"
-        "9, monitor:eDP-1"
-        "10, monitor:eDP-1"
+        "6, monitor:HDMI-A-1"
+        "7, monitor:HDMI-A-1"
+        "8, monitor:HDMI-A-1"
+        "9, monitor:eDP-1, default:true"
       ];
 
       # Programs
@@ -41,6 +41,8 @@
         "qs &"
         "swww-daemon &"
         "sleep 0.5 && swww img -o HDMI-A-1 ~/walls/bw01.jpg && swww img -o eDP-1 ~/walls/bw01.jpg"
+        # Focus workspace 1 on launch (forces focus to the external monitor if present)
+        "hyprctl dispatch workspace 1"
       ];
 
       # Environment variables
