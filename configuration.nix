@@ -3,7 +3,7 @@
     ./hardware-configuration.nix
   ];
 
-  # Enable Docker virtualisation aemon
+  # Enable Docker virtualisation daemon
   virtualisation.docker = {
     enable = true;
     package = pkgs.docker_29;
@@ -60,24 +60,15 @@
   # --- System Packages & Settings ---
   nixpkgs.config.allowUnfree = true;
 
+  # Leave only base command line utilities needed before logging in
   environment.systemPackages = with pkgs; [
     wget
-    tailscale
   ];
 
-  # --- Desktop Environment (Hyprland) ---
+  # --- Desktop Environment (Hyprland System-level Hook) ---
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
-  };
-
-  xdg.portal = {
-    enable = true;
-    extraPortals = [ 
-      pkgs.xdg-desktop-portal-gtk
-      pkgs.xdg-desktop-portal-hyprland
-    ];
-    config.common.default = [ "hyprland" "gtk" ];
   };
 
   # --- Fonts ---
@@ -86,28 +77,23 @@
   ];
 
   # --- Hardware Support ---
-  # Bluetooth
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
     settings = {
       General = {
-        Experimental = true; # Enables battery percentage reporting
+        Experimental = true;
       };
     };
   };
 
-  # Graphics Tablet
   hardware.opentabletdriver.enable = true;
 
   # --- Services ---
-  # File Management Services
-  services.gvfs.enable = true;    # Mount, trash, and other functionality
-  services.tumbler.enable = true; # Thumbnail support for images
-
+  services.gvfs.enable = true;    
+  services.tumbler.enable = true; 
   services.tailscale.enable = true;
 
-  # Audio (Pipewire)
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -123,9 +109,5 @@
     options = "--delete-older-than 14d";
   };
   
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
   system.stateVersion = "25.11";
 }

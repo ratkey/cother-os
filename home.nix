@@ -23,6 +23,8 @@
   ];
 
   home.packages = with pkgs; [
+    tailscale
+
     # Core tools needed globally by LazyVim
     ripgrep
     fd
@@ -85,13 +87,22 @@
     nix-direnv.enable = true;
   };
 
-  home.file.".config/waypaper/config.ini".text = ''
-    [Settings]
-    folder = ~/walls
-    backend = swww
-    fill = fill
-    sort = name
-    color = #282828
-    subfolders = false
-  '';
+  # home.file.".config/waypaper/config.ini".text = ''
+  #   [Settings]
+  #   folder = ~/walls
+  #   backend = swww
+  #   fill = fill
+  #   sort = name
+  #   color = #282828
+  #   subfolders = false
+  # '';
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ 
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-hyprland
+    ];
+    config.common.default = [ "hyprland" "gtk" ];
+  };
 }
