@@ -63,16 +63,6 @@
   environment.systemPackages = with pkgs; [
     wget
     tailscale
-
-    # Global Programming Languages & Development Toolchains
-    go
-    rust-analyzer
-    cargo
-    rustc
-    nodejs_24
-    python3
-    # nvim-treesitter requirement
-    tree-sitter
   ];
 
   # --- Desktop Environment (Hyprland) ---
@@ -81,7 +71,14 @@
     xwayland.enable = true;
   };
 
-  # programs.hyprlock.enable = true;
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ 
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-hyprland
+    ];
+    config.common.default = [ "hyprland" "gtk" ];
+  };
 
   # --- Fonts ---
   fonts.packages = with pkgs; [
@@ -107,6 +104,7 @@
   # File Management Services
   services.gvfs.enable = true;    # Mount, trash, and other functionality
   services.tumbler.enable = true; # Thumbnail support for images
+
   services.tailscale.enable = true;
 
   # Audio (Pipewire)

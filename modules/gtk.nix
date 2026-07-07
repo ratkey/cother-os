@@ -1,24 +1,19 @@
 { pkgs, ... }:
-
 {
+  # Force legacy GTK3/GTK4 apps
   gtk = {
     enable = true;
     theme = {
-      package = pkgs.gruvbox-dark-gtk;
-      name = "gruvbox-dark";
+      name = "Adwaita-dark";
+      package = pkgs.gnome-themes-extra;
     };
-    iconTheme = {
-      name = "Adwaita";
-    };
-    gtk3.extraConfig = {
-      Settings = ''
-        gtk-application-prefer-dark-theme=1
-      '';
-    };
-    gtk4.extraConfig = {
-      Settings = ''
-        gtk-application-prefer-dark-theme=1
-      '';
+    gtk3.extraConfig.gtk-application-prefer-dark-theme=1;
+    gtk4.extraConfig.gtk-application-prefer-dark-theme=1;
+  };
+  # Force modern HTK4 apps
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
     };
   };
 }

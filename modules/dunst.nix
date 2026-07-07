@@ -1,6 +1,5 @@
 { config, pkgs, ... }:
 {
-
   services.dunst = {
     enable = true;
     settings = {
@@ -10,12 +9,12 @@
         width = 300;
         height = 100;
         origin = "top-right";
-        offset = "20x20";
-        frame_width = 2;
-        corner_radius = 5;
+        offset = "5x5";
+        frame_width = 1;
+        corner_radius = 2;
 
-        # Gruvbox Dark Colors
-        frame_color = "#fabd2f"; # Gruvbox Yellow border
+        # Grayscale Accents
+        frame_color = "#8A8A8A"; # Mid-grey structural border
         separator_color = "frame";
 
         # Enable icons/images on the left side
@@ -25,17 +24,23 @@
         max_icon_size = 128;
       };
 
+      urgency_low = {
+        background = "#1E1E1E"; # Deep dark charcoal
+        foreground = "#8A8A8A"; # Muted grey text
+        timeout = 3;
+      };
+
       urgency_normal = {
-        background = "#282828"; # Gruvbox Dark Background
-        foreground = "#ebdbb2"; # Gruvbox Light Text
-        timeout = 5; # Disappears after 5 seconds
+        background = "#2A2A2A"; # Dark gray background matching prompt
+        foreground = "#EEEEEE"; # Crisp off-white text
+        timeout = 5;            # Disappears after 5 seconds
       };
 
       urgency_critical = {
-        background = "#cc241d"; # Gruvbox Red
-        foreground = "#ebdbb2";
-        frame_color = "#fb4934";
-        timeout = 0; # Stays until you click it
+        background = "#EEEEEE"; # High-contrast inverted white background
+        foreground = "#111111"; # Deep black text
+        frame_color = "#FFFFFF"; # Pure white border highlight
+        timeout = 0;            # Stays until you click it
       };
     };
   };

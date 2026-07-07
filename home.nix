@@ -9,17 +9,12 @@
     ./modules/kitty.nix
     ./modules/neovim.nix
     ./modules/tmux.nix
-    # ./modules/zellij.nix
     ./modules/rofi.nix
     ./modules/dunst.nix
     ./modules/git.nix
-    ./modules/brave.nix
     ./modules/btop.nix
-    ./modules/nautilus.nix
-    # ./modules/hyprlock.nix
-    # ./modules/hypridle.nix
     ./modules/cursor.nix
-    # ./modules/gtk.nix
+    ./modules/gtk.nix
     ./modules/eza.nix
     ./modules/fastfetch.nix
     ./modules/obsidian.nix
@@ -56,14 +51,16 @@
     pamixer
     vscode
     brightnessctl
-    swww
+    swww # Background manager
     obs-studio
     vlc
-    bluetui
     godot
+
+    # Bluetooth
     blueman # The standard GTK Bluetooth manager (GUI)
-    bluez # Core Bluetooth utilities (includes bluetoothctl)
     bluez-tools # Extra CLI tools
+    bluetui # TUI bluetooth manager
+
     grim # The screenshot tool
     slurp # The region selector
     libnotify # Notification alerts
@@ -71,21 +68,21 @@
     gemini-cli
     claude-code
     krita # Drawing
-    firefox # Browser
+
+    # Browsers
+    firefox
+
     azahar # Nintendo 3DS emulator
-    localsend # GUI for sharing files acrross network
+    localsend # GUI for sharing files across network
     yazi # TUI file manager
+    xfce.thunar # GUI File manager (works natively in dark mode!)
     nwg-displays # GUI for configuring Monitors
     waypaper # GUI wallpaper selector for swww
   ];
+
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
-  };
-  dconf.settings = {
-    "org/gnome/desktop/interface" = {
-      color-scheme = "prefer-dark";
-    };
   };
 
   home.file.".config/waypaper/config.ini".text = ''
