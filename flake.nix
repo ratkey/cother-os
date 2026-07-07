@@ -2,17 +2,14 @@
   description = "NixOS cother system v2";
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-25.11";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    quickshell = {
-      url = "git+https://git.outfoxxed.me/quickshell/quickshell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs = { nixpkgs, home-manager, ... }@inputs: {
+  outputs = { nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs: {
     nixosConfigurations.CotherOS = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [

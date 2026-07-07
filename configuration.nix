@@ -108,6 +108,6 @@
     dates = "weekly";
     options = "--delete-older-than 14d";
   };
-  
+
   system.stateVersion = "25.11";
 }
