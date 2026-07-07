@@ -7,7 +7,7 @@
       logo = {
         source = "nixos_old";
         color = {
-          "1" = "yellow";
+          "1" = "black";
           "2" = "white";
         };
         padding = {

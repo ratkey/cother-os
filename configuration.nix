@@ -62,6 +62,7 @@
 
   environment.systemPackages = with pkgs; [
     wget
+    tailscale
   ];
 
   # --- Desktop Environment (Hyprland) ---
@@ -96,6 +97,7 @@
   # File Management Services
   services.gvfs.enable = true;    # Mount, trash, and other functionality
   services.tumbler.enable = true; # Thumbnail support for images
+  services.tailscale.enable = true;
 
   # Audio (Pipewire)
   services.pipewire = {
