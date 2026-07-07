@@ -1,4 +1,10 @@
-{ config, pkgs, lib, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
   wayland.windowManager.hyprland = {
     enable = true;
 
@@ -7,7 +13,7 @@
       # External Monitor (Left display)
       monitor = [
         "HDMI-A-1, 1920x1080@60, 0x0, 1"
-        "eDP-1, 2240x1400@60, 1920x0, 1"
+        "eDP-1, 2240x1400@60, 1920x0, 1.25"
       ];
 
       # --- Dynamic Workspace Allocation ---
@@ -91,11 +97,11 @@
         ];
         animation = [
           "windows, 1, 4, subtleCurve"
-          "windowsOut, 1, 3, subtleCurve, popin 93%" 
+          "windowsOut, 1, 3, subtleCurve, popin 93%"
           "border, 1, 5, default"
           "borderangle, 1, 5, default"
           "fade, 1, 4, default"
-          "workspaces, 1, 4, subtleCurve, slide" 
+          "workspaces, 1, 4, subtleCurve, slide"
           "layers, 1, 4, panelEase, slide top"
         ];
       };

@@ -1,4 +1,11 @@
-{ config, pkgs, lib, inputs, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
+{
   home.username = "cother";
   home.homeDirectory = "/home/cother";
   home.stateVersion = "25.11";
@@ -91,22 +98,15 @@
     nix-direnv.enable = true;
   };
 
-  # home.file.".config/waypaper/config.ini".text = ''
-  #   [Settings]
-  #   folder = ~/walls
-  #   backend = swww
-  #   fill = fill
-  #   sort = name
-  #   color = #282828
-  #   subfolders = false
-  # '';
-
   xdg.portal = {
     enable = true;
-    extraPortals = [ 
+    extraPortals = [
       pkgs.xdg-desktop-portal-gtk
       pkgs.xdg-desktop-portal-hyprland
     ];
-    config.common.default = [ "hyprland" "gtk" ];
+    config.common.default = [
+      "hyprland"
+      "gtk"
+    ];
   };
 }
