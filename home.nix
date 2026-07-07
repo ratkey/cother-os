@@ -30,6 +30,8 @@
     fd
     lazygit
     fzf
+    nixd
+    alejandra
 
     # Global Programming Languages & Development Toolchains
     go
@@ -40,6 +42,8 @@
     python3
 
     # nvim-treesitter requirement
+    vimPlugins.nvim-treesitter.withAllGrammars
+    nixfmt-rfc-style
     tree-sitter
 
     # Utilities to fix Snacks.nvim & Grug-far health checks

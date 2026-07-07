@@ -40,7 +40,7 @@
         "$terminal"
         "qs &"
         "swww-daemon &"
-        "sleep 0.5 && swww img -o HDMI-A-1 ~/walls/bw01.jpg && swww img -o eDP-1 ~/walls/bw01.jpg"
+        "sleep 0.5 && swww img -o HDMI-A-1 ~/walls/bw02.jpg && swww img -o eDP-1 ~/walls/bw02.jpg"
         # Focus workspace 1 on launch (forces focus to the external monitor if present)
         "hyprctl dispatch workspace 1"
       ];
