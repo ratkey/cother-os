@@ -3,7 +3,7 @@
     enable = true;
 
     settings = {
-# --- Monitor Layout ---
+      # --- Monitor Layout ---
       # External Monitor (Left display)
       monitor = [
         "HDMI-A-1, 1920x1080@60, 0x0, 1"
@@ -27,8 +27,8 @@
 
       # Programs
       "$terminal" = "kitty";
-      "$fileManager" = "nautilus";
-      "$browser" = "brave";
+      "$fileManager" = "thunar";
+      "$browser" = "firefox";
       "$menu" = "rofi -show drun";
       "$reload_hyprland" = "hyprctl reload";
       "$mainMod" = "SUPER";
