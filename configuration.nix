@@ -63,6 +63,16 @@
   environment.systemPackages = with pkgs; [
     wget
     tailscale
+
+    # Global Programming Languages & Development Toolchains
+    go
+    rust-analyzer
+    cargo
+    rustc
+    nodejs_24
+    python3
+    # nvim-treesitter requirement
+    tree-sitter
   ];
 
   # --- Desktop Environment (Hyprland) ---
