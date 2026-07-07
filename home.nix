@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }: {
+{ config, pkgs, lib, inputs, ... }: {
   home.username = "cother";
   home.homeDirectory = "/home/cother";
   home.stateVersion = "25.11";
@@ -16,8 +16,8 @@
     ./modules/brave.nix
     ./modules/btop.nix
     ./modules/nautilus.nix
-    ./modules/hyprlock.nix
-    ./modules/hypridle.nix
+    # ./modules/hyprlock.nix
+    # ./modules/hypridle.nix
     ./modules/cursor.nix
     ./modules/gtk.nix
     ./modules/eza.nix
@@ -28,6 +28,7 @@
   ];
 
   home.packages = with pkgs; [
+    docker-compose
     wl-clipboard
     cliphist
     pamixer

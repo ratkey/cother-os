@@ -6,7 +6,6 @@
     baseIndex = 1;
     keyMode = "vi";
 
-    # We set the prefix here to avoid conflicts, but we rebind it in extraConfig below
     prefix = "M-s";
 
     # NixOS handles plugin installation automatically (No more TPM!)
@@ -17,12 +16,11 @@
       resurrect
       continuum
 
-      # Gruvbox theme
+      # Tmux-Power theme
       {
-        plugin = gruvbox;
+        plugin = power-theme;
         extraConfig = ''
-          set -g @tmux-gruvbox 'dark'
-          set -g @tmux-gruvbox-statusbar-alpha 'true'
+          set -g @tmux_power_theme 'snow' # Options: gold, juice, coral, snow, moon, forest, sky, violet
         '';
       }
     ];
@@ -36,18 +34,15 @@
       set -g renumber-windows on
 
       # --- Keybindings ---
-      
       # Split panes using | and - (preserving path)
       bind | split-window -h -c "#{pane_current_path}"
       bind - split-window -v -c "#{pane_current_path}"
       unbind '"'
       unbind %
 
-      # Vim style pane selection
-      bind h select-pane -L
-      bind j select-pane -D 
-      bind k select-pane -U
-      bind l select-pane -R
+      # Split vertically with prefix + l, horizontally with prefix + j
+      bind l split-window -h -c "#{pane_current_path}"
+      bind j split-window -v -c "#{pane_current_path}"
 
       # Alt-hjkl to switch panes (No prefix)
       bind -n M-h select-pane -L

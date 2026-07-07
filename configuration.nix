@@ -3,6 +3,12 @@
     ./hardware-configuration.nix
   ];
 
+  # Enable Docker virtualisation aemon
+  virtualisation.docker = {
+    enable = true;
+    package = pkgs.docker_29;
+  };
+
   # --- Bootloader Configuration ---
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.grub = {
@@ -13,13 +19,13 @@
   };
 
   # --- Networking ---
-  networking.hostName = "nixos";
+  networking.hostName = "CotherOS";
   networking.networkmanager.enable = true;
   networking.firewall.allowedTCPPorts = [ 53317 ];
   networking.firewall.allowedUDPPorts = [ 53317 ];
 
   # --- Localization & Timezone ---
-  time.timeZone = "America/Mexico_City";
+  time.timeZone = "America/Mazatlan";
   i18n.defaultLocale = "en_US.UTF-8";
 
   i18n.extraLocaleSettings = {
@@ -47,7 +53,7 @@
   users.users.cother = {
     isNormalUser = true;
     description = "cother";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [ ];
   };
 
@@ -56,6 +62,7 @@
 
   environment.systemPackages = with pkgs; [
     wget
+    tailscale
   ];
 
   # --- Desktop Environment (Hyprland) ---
@@ -90,6 +97,7 @@
   # File Management Services
   services.gvfs.enable = true;    # Mount, trash, and other functionality
   services.tumbler.enable = true; # Thumbnail support for images
+  services.tailscale.enable = true;
 
   # Audio (Pipewire)
   services.pipewire = {
