@@ -4,7 +4,7 @@
     enable = true;
 
     # Pick a theme (Gruvbox to match your Neovim/Zellij)
-    themeFile = "gruvbox-dark-hard";
+    # themeFile = "gruvbox-dark-hard";
 
     font = {
       name = "JetBrainsMono Nerd Font";
@@ -19,7 +19,7 @@
       update_check_interval = 0; # No updates (Nix manages this)
 
       # Visuals
-      background_opacity = "0.70"; # Slight transparency
+      background_opacity = "0.90"; # Slight transparency
       window_padding_width = 2; # Breathing room for text
       cursor_shape = "block";
 
