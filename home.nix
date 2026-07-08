@@ -30,6 +30,9 @@
   ];
 
   home.packages = with pkgs; [
+    # useless but pretty shiet
+    cava # audio bars
+
     tailscale
 
     # Core tools needed globally by LazyVim
@@ -39,6 +42,7 @@
     fzf
     nixd
     alejandra
+    gcc
 
     # Global Programming Languages & Development Toolchains
     go
