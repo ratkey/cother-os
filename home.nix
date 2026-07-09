@@ -42,7 +42,6 @@
     fzf
     nixd
     alejandra
-    gcc
 
     # Global Programming Languages & Development Toolchains
     go
@@ -51,6 +50,7 @@
     rustc
     nodejs_24
     python3
+    gcc
 
     # nvim-treesitter requirement
     vimPlugins.nvim-treesitter.withAllGrammars
