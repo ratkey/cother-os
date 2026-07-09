@@ -82,7 +82,8 @@
     slurp # The region selector
     libnotify # Notification alerts
     yaak # GUI api client
-    gemini-cli
+    # gemini-cli
+    gh # TUI Github-cli
     claude-code
     krita # Drawing
 
