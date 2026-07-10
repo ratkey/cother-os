@@ -42,6 +42,9 @@
     fzf
     nixd
     alejandra
+    qt6.qtdeclarative
+    stylua
+    rubocop
 
     # Global Programming Languages & Development Toolchains
     go
