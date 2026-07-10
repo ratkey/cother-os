@@ -7,16 +7,21 @@
 }:
 let
   unstable-pkgs = import inputs.nixpkgs-unstable {
-    system = pkgs.system;
+    system = pkgs.stdenv.hostPlatform.system;
     config.allowUnfree = true;
   };
+
+  quickshellConfigDir = ../config/quickshell;
+
+  allConfigs = lib.attrsets.mapAttrs' (
+    name: value: lib.attrsets.nameValuePair name (quickshellConfigDir + "/${name}")
+  ) (builtins.readDir quickshellConfigDir);
 in
 {
   programs.quickshell = {
     enable = true;
     package = unstable-pkgs.quickshell;
     activeConfig = null;
-    configs."shell.qml" = ../config/quickshell/shell.qml;
-    configs."SysMonitor.qml" = ../config/quickshell/SysMonitor.qml;
+    configs = allConfigs;
   };
 }
