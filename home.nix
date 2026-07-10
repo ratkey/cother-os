@@ -30,6 +30,7 @@
   ];
 
   home.packages = with pkgs; [
+
     # useless but pretty shiet
     cava # audio bars
 

@@ -1,6 +1,6 @@
-return {
-  "williamboman/mason.nvim",
-  opts = {
-    ensure_installed = {}, -- Let NixOS/Home Manager handle binaries instead
-  },
-}
+-- return {
+--   "williamboman/mason.nvim",
+--   opts = {
+--     ensure_installed = {}, -- Let NixOS/Home Manager handle binaries instead
+--   },
+-- }

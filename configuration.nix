@@ -49,11 +49,18 @@
 
   # --- User Configuration ---
   services.getty.autologinUser = "cother";
-  
+
+  # --- for quickshell to display battery
+  services.upower.enable = true;
+
   users.users.cother = {
     isNormalUser = true;
     description = "cother";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "docker"
+    ];
     packages = with pkgs; [ ];
   };
 
@@ -90,9 +97,11 @@
   hardware.opentabletdriver.enable = true;
 
   # --- Services ---
-  services.gvfs.enable = true;    
-  services.tumbler.enable = true; 
+  services.gvfs.enable = true;
+  services.tumbler.enable = true;
   services.tailscale.enable = true;
+
+  security.rtkit.enable = true; # Highly recommended for PipeWire realtime priority
 
   services.pipewire = {
     enable = true;
@@ -102,7 +111,10 @@
   };
 
   # --- Nix Configuration ---
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   nix.gc = {
     automatic = true;
     dates = "weekly";

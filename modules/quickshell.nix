@@ -1,4 +1,10 @@
-{ config, pkgs, lib, inputs, ... }: 
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 let
   unstable-pkgs = import inputs.nixpkgs-unstable {
     system = pkgs.system;
