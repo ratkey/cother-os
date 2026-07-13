@@ -20,7 +20,6 @@
           timeoutlen = 3000;
         };
         options = {
-          mapleader = " ";
           number = true;
           relativenumber = false;
           autoindent = true;
