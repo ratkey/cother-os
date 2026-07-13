@@ -14,7 +14,7 @@
     ./modules/bash.nix
     ./modules/fish.nix
     ./modules/kitty.nix
-    ./modules/neovim.nix
+    ./modules/nvf.nix
     ./modules/tmux.nix
     ./modules/rofi.nix
     ./modules/dunst.nix
@@ -30,41 +30,14 @@
   ];
 
   home.packages = with pkgs; [
+    # Global Programming Languages & Development Toolchains
+    go
+    nodejs_24
+    python3
 
-    # useless but pretty shiet
     cava # audio bars
 
     tailscale
-
-    # Core tools needed globally by LazyVim
-    ripgrep
-    fd
-    lazygit
-    fzf
-    nixd
-    alejandra
-    qt6.qtdeclarative
-    stylua
-    rubocop
-
-    # Global Programming Languages & Development Toolchains
-    go
-    rust-analyzer
-    cargo
-    rustc
-    nodejs_24
-    python3
-    gcc
-
-    # nvim-treesitter requirement
-    vimPlugins.nvim-treesitter.withAllGrammars
-    nixfmt-rfc-style
-    tree-sitter
-
-    # Utilities to fix Snacks.nvim & Grug-far health checks
-    ast-grep
-    trash-cli
-    mermaid-cli
 
     docker-compose
     wl-clipboard
