@@ -19,10 +19,30 @@
   };
 
   # --- Networking ---
-  networking.hostName = "CotherOS";
-  networking.networkmanager.enable = true;
-  networking.firewall.allowedTCPPorts = [ 53317 ];
-  networking.firewall.allowedUDPPorts = [ 53317 ];
+  networking = {
+    hostName = "CotherOS";
+    networkmanager.enable = true;
+    firewall.allowedTCPPorts = [ 53317 ];
+    firewall.allowedUDPPorts = [ 53317 ];
+
+    # Development configs
+    hosts = {
+      "127.0.0.1" = [
+        "ciasa.haikanetwork.local"
+        "fred.haikanetwork.local"
+        "fred.haikanetwork.com"
+        "yaqui.haikanetwork.local"
+        "elmundodeltornillo.haikanetwork.local"
+        "ciasa.localhost.com"
+        "yaqui.localhost.com"
+        "elmundodeltornillo.localhost.com"
+        "auth.localhost.com"
+        "nacionferreteralg.localhost.local"
+        "nacionferreteralg.haikanetwork.local"
+        "nacionferreteralg.localhost.com"
+      ];
+    };
+  };
 
   # --- Localization & Timezone ---
   time.timeZone = "America/Mazatlan";

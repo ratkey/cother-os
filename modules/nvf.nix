@@ -9,6 +9,7 @@
   imports = [
     inputs.nvf.homeManagerModules.default
   ];
+  programs.ripgrep.enable = true;
   programs.nvf = {
     enable = true;
     settings = {
@@ -101,6 +102,21 @@
             silent = true;
             desc = "Split right";
           }
+          # telescope -------
+          {
+            key = "<leader><leader>";
+            mode = [ "n" ];
+            action = "<cmd>Telescope find_files<CR>";
+            silent = true;
+            desc = "Find files";
+          }
+          {
+            key = "<leader>sg";
+            mode = [ "n" ];
+            action = "<cmd>Telescope live_grep<CR>";
+            silent = true;
+            desc = "Find files";
+          }
         ];
         lsp = {
           enable = true;
@@ -167,6 +183,9 @@
               default_file_explorer = true;
               float = {
                 border = "rounded";
+              };
+              view_options = {
+                show_hidden = true;
               };
             };
           };
