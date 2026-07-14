@@ -10,7 +10,7 @@ RowLayout {
 
     property string fontFamily: "JetBrainsMono Nerd Font"
     property int fontSize: 14
-    property string clockFormat: "dddd dd-MMM HH:mm a"
+    property string clockFormat: "dddd dd-MMM hh:mm a"
 
     Text {
         id: clock
