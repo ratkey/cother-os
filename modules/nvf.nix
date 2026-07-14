@@ -16,6 +16,7 @@
       vim = {
         viAlias = false;
         vimAlias = true;
+        ui.colorizer.enable = true;
         globals = {
           # Time neovim waits for you to finish keymap combo
           timeoutlen = 3000;
@@ -160,11 +161,13 @@
           nix.enable = true;
           go.enable = true;
           ruby.enable = true;
+          tsx.enable = true;
           json.enable = true;
           env.enable = true;
           css.enable = true;
           lua.enable = true;
           yaml.enable = true;
+          qml.enable = true;
           typescript.enable = true;
           markdown.enable = true;
         };

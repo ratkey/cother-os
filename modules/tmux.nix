@@ -8,21 +8,12 @@
 
     prefix = "M-s";
 
-    # NixOS handles plugin installation automatically (No more TPM!)
     plugins = with pkgs.tmuxPlugins; [
       sensible
       vim-tmux-navigator
       yank
       resurrect
       continuum
-
-      # Tmux-Power theme
-      {
-        plugin = power-theme;
-        extraConfig = ''
-          set -g @tmux_power_theme 'snow' # Options: gold, juice, coral, snow, moon, forest, sky, violet
-        '';
-      }
     ];
 
     extraConfig = ''
@@ -67,6 +58,32 @@
       set -g @resurrect-strategy-vim 'session'
       set -g @resurrect-strategy-nvim 'session'
       set -g @continuum-boot 'on'
+
+      # --- Grayscale Visual Theme ---
+      # Palette: Black (#121212), Dark Gray (#303030), Light Gray (#b2b2b2), White (#ffffff)
+
+      # Status bar general
+      set -g status-style "bg=#121212,fg=#b2b2b2"
+      set -g status-justify left
+      set -g status-left-length 30
+
+      # Clear the right status bar completely (no date, clock, or host)
+      set -g status-right ""
+
+      # Inactive window tabs (subtle dark gray)
+      set -g window-status-format " #I:#W "
+      set -g window-status-style "fg=#767676,bg=#121212"
+
+      # Active window tab (solid white background, black text)
+      set -g window-status-current-format " #I:#W "
+      set -g window-status-current-style "fg=#121212,bg=#ffffff,bold"
+
+      # Pane borders (minimalist line separation)
+      set -g pane-border-style "fg=#303030"
+      set -g pane-active-border-style "fg=#ffffff"
+
+      # Left Status Bar (Session Name - bold white on dark gray)
+      set -g status-left "#[fg=#ffffff,bg=#303030,bold] 󰓩 #S #[bg=default,fg=default] "
     '';
   };
 }
