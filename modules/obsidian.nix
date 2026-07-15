@@ -2,10 +2,13 @@
   programs.obsidian = {
     enable = true;
     vaults = {
-      "main" = { 
+      "main" = {
         enable = true;
         target = "Obsidian/main";
         settings = {
+          app = {
+            vimMode = true;
+          };
         };
       };
     };
