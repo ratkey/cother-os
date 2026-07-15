@@ -50,6 +50,6 @@
 
   programs.oh-my-posh = {
     enable = true;
-    configFile = ../config/oh-my-posh/theme.json;
+    useTheme = "pure";
   };
 }
