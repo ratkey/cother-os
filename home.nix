@@ -38,6 +38,7 @@
     cava # audio bars
 
     tailscale
+    unzip
 
     docker-compose
     wl-clipboard

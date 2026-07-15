@@ -150,7 +150,7 @@
         # Screenshots
         ", Print, exec, grim -g \"$(slurp)\" /tmp/screenshot.png && wl-copy < /tmp/screenshot.png && notify-send -i /tmp/screenshot.png \"Screenshot\" \"Region copied to clipboard\""
         "CTRL, Print, exec, grim /tmp/screenshot.png && wl-copy < /tmp/screenshot.png && notify-send -i /tmp/screenshot.png \"Screenshot\" \"Fullscreen copied to clipboard\""
-        "SUPER, Print, exec, FILE=~/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S.png'); grim $FILE && notify-send -i $FILE \"Screenshot\" \"Saved to $FILE\""
+        "SUPER, Print, exec, sh -c 'DIR=\"$HOME/Pictures/Screenshots\"; mkdir -p \"$DIR\"; FILE=\"$DIR/\$(date +%Y-%m-%d_%H-%M-%S).png\"; grim \"\$FILE\" && notify-send -i \"\$FILE\" \"Screenshot\" \"Saved to Screenshots\"'"
 
         # Applications
         "$mainMod, Return, exec, $terminal"
