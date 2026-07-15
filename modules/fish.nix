@@ -13,6 +13,7 @@
       gcm = "git commit -m";
       cls = "clear";
       nrs = "sudo nixos-rebuild switch";
+      calc = "numbat";
       fix-brave = "rm -rf ~/.config/BraveSoftware/Brave-Browser/Singleton* && brave &";
     };
     interactiveShellInit = ''

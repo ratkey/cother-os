@@ -38,7 +38,10 @@
     cava # audio bars
 
     tailscale
+
+    # common tools
     unzip
+    numbat # tui calculator
 
     docker-compose
     wl-clipboard
