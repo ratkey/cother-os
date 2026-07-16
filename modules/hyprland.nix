@@ -148,9 +148,14 @@
       # Keybindings
       bind = [
         # Screenshots
-        ", Print, exec, grim -g \"$(slurp)\" /tmp/screenshot.png && wl-copy < /tmp/screenshot.png && notify-send -i /tmp/screenshot.png \"Screenshot\" \"Region copied to clipboard\""
-        "CTRL, Print, exec, grim /tmp/screenshot.png && wl-copy < /tmp/screenshot.png && notify-send -i /tmp/screenshot.png \"Screenshot\" \"Fullscreen copied to clipboard\""
-        "SUPER, Print, exec, sh -c 'DIR=\"$HOME/Pictures/Screenshots\"; mkdir -p \"$DIR\"; FILE=\"$DIR/\$(date +%Y-%m-%d_%H-%M-%S).png\"; grim \"\$FILE\" && notify-send -i \"\$FILE\" \"Screenshot\" \"Saved to Screenshots\"'"
+        # Region screenshot
+        ", Print, exec, bash -c 'mkdir -p $HOME/Pictures/Screenshots && FILE=\"$HOME/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png\" && grim -g \"$(slurp)\" \"$FILE\" && wl-copy < \"$FILE\" && notify-send \"Screenshot\" \"Region saved and copied\"'"
+
+        # Fullscreen screenshot
+        "CTRL, Print, exec, bash -c 'mkdir -p $HOME/Pictures/Screenshots && FILE=\"$HOME/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png\" && grim \"$FILE\" && wl-copy < \"$FILE\" && notify-send \"Screenshot\" \"Fullscreen saved and copied\"'"
+
+        # Save to folder
+        "$mainMod, Print, exec, bash -c 'mkdir -p $HOME/Pictures/Screenshots && grim \"$HOME/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png\" && notify-send \"Screenshot\" \"Saved to folder\"'"
 
         # Applications
         "$mainMod, Return, exec, $terminal"
