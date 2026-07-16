@@ -21,11 +21,14 @@
           # Time neovim waits for you to finish keymap combo
           timeoutlen = 3000;
         };
+        treesitter = {
+          enable = true;
+          indent.enable = false;
+        };
         options = {
+          autoindent = true;
           number = true;
           relativenumber = false;
-          autoindent = true;
-          smartindent = true;
           hlsearch = true;
           backup = false;
           showcmd = true;
