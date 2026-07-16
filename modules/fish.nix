@@ -4,15 +4,15 @@
   programs.fish = {
     enable = true;
     shellAliases = {
-      btw = "echo I use nixos, btw";
       ls = "eza --icons --group-directories-first";
       ll = "eza -lh --icons --git";
       lt = "eza --tree --icons";
       gs = "git status";
-      ga = "git add .";
+      ga = "git add . && git status";
       gcm = "git commit -m";
       cls = "clear";
       nrs = "sudo nixos-rebuild switch";
+      webo = "git add . && sudo nixos-rebuild switch --flake .#CotherOS";
       calc = "numbat";
       fix-brave = "rm -rf ~/.config/BraveSoftware/Brave-Browser/Singleton* && brave &";
     };

@@ -32,6 +32,7 @@
   home.packages = with pkgs; [
     # Global Programming Languages & Development Toolchains
     go
+    gcc
     nodejs_24
     python3
 

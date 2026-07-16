@@ -118,6 +118,19 @@
             silent = true;
             desc = "Find files";
           }
+          # nvim vehavior ---------
+          {
+            key = ">";
+            mode = "v";
+            action = ">gv";
+            noremap = true;
+          }
+          {
+            key = "<";
+            mode = "v";
+            action = "<gv";
+            noremap = true;
+          }
         ];
         lsp = {
           enable = true;
@@ -175,6 +188,8 @@
         mini = {
           icons.enable = true;
           tabline.enable = true;
+          animate.enable = true;
+          move.enable = true;
         };
 
         utility = {
