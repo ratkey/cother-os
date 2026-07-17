@@ -1,0 +1,9 @@
+singleton Theme 1.0 Theme.qml
+ColorPallete 1.0 ColorPallete.qml
+Battery 1.0 Battery.qml
+Clock 1.0 Clock.qml
+CPU 1.0 CPU.qml
+Network 1.0 Network.qml
+RAM 1.0 RAM.qml
+Volume 1.0 Volume.qml
+Workspaces 1.0 Workspaces.qml

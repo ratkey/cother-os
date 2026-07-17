@@ -4,6 +4,7 @@ import Quickshell.Io
 import Quickshell.Hyprland
 import QtQuick
 import QtQuick.Layouts
+import "."
 
 Variants {
     id: multiScreenRoot
@@ -16,31 +17,29 @@ Variants {
             required property var modelData
             screen: modelData
 
-            // Theme
-            property color colBg: "#000000"
-            property color colFg: "#ffffff"
-            property color colPrimary: "#ffffff"
-            property color colSecondary: "#c9c9c9"
-            property color colWarning: "#e0af68"
-            property color colError: "#ff0000"
-            property color colMuted: "#404040"
-            property color colCyan: "#0db9d7"
-            property color colBlue: "#7aa2f7"
-            property color colYellow: "#e0af68"
-            property string fontFamily: "JetBrainsMono Nerd Font"
-            property int fontSize: 14
-
             anchors.top: true
             anchors.left: true
             anchors.right: true
             implicitHeight: 30
 
-            color: root.colBg
+            color: Theme.colBackground
 
             RowLayout {
                 anchors.fill: parent
-                anchors.margins: 8
+                anchors.margins: 4
                 spacing: 8
+
+                // left side
+                RowLayout {
+                    Layout.minimumWidth: 250
+                    Layout.fillWidth: false
+                    spacing: 8
+                    Clock {}
+                }
+
+                Item {
+                    Layout.fillWidth: true
+                }
 
                 Workspaces {}
 
@@ -48,17 +47,22 @@ Variants {
                     Layout.fillWidth: true
                 }
 
-                Clock {}
+                // right side
+                RowLayout {
+                    Layout.minimumWidth: 250
+                    Layout.fillWidth: false
+                    Layout.alignment: Qt.AlignRight
+                    spacing: 8
 
-                Item {
-                    Layout.fillWidth: true
+                    Item {
+                        Layout.fillWidth: true
+                    }
+                    CPU {}
+                    RAM {}
+                    Network {}
+                    Volume {}
+                    Battery {}
                 }
-
-                CPU {}
-                RAM {}
-                Network {}
-                Volume {}
-                Battery {}
             }
         }
     }

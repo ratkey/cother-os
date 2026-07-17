@@ -2,17 +2,11 @@ import Quickshell
 import Quickshell.Services.Pipewire
 import QtQuick
 import QtQuick.Layouts
+import "."
 
 RowLayout {
     id: root
     spacing: 7
-
-    property color colPrimary: "#ffffff"
-    property color colWarning: "#e0af68"
-    property color colError: "#ff0000"
-
-    property string fontFamily: "JetBrainsMono Nerd Font"
-    property int fontSize: 14
 
     property var sink: Pipewire.defaultAudioSink
 
@@ -21,36 +15,41 @@ RowLayout {
     readonly property int vol: ready ? Math.round(sink.audio.volume * 100) : 0
 
     readonly property string icon: {
-        if (!ready)
-            return String.fromCodePoint(0xF0581);
-        if (muted)
+        if (!ready || muted)
             return String.fromCodePoint(0xF0581);
 
         if (vol == 0)
             return String.fromCodePoint(0xF0581);
-        if (vol < 34)
+        if (vol <= 10)
             return String.fromCodePoint(0xF057F);
-        if (vol < 67)
+        if (vol <= 30)
             return String.fromCodePoint(0xF0580);
 
         return String.fromCodePoint(0xF057E);
     }
 
+    readonly property color kolor: {
+        if (!ready || muted || vol == 0)
+            return Theme.colStageEmpty;
+        if (vol <= 10)
+            return Theme.colStage4;
+        if (vol <= 20)
+            return Theme.colStage5;
+        if (vol <= 40)
+            return Theme.colStage6;
+        if (vol <= 50)
+            return Theme.colStage7;
+        if (vol <= 80)
+            return Theme.colStage8;
+        return Theme.colStage8;
+    }
+
     Text {
         text: root.icon
-        color: root.colPrimary
+        color: root.kolor
         font {
-            family: root.fontFamily
-            pixelSize: root.fontSize
-            bold: true
-        }
-    }
-    Text {
-        text: root.vol + "%"
-        color: root.colPrimary
-        font {
-            family: root.fontFamily
-            pixelSize: root.fontSize
+            family: Theme.fontFamily
+            pixelSize: Theme.iconSize
             bold: true
         }
     }

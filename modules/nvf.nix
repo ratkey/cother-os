@@ -21,6 +21,9 @@
           # Time neovim waits for you to finish keymap combo
           timeoutlen = 3000;
         };
+        diagnostics = {
+          nvim-lint.enable = true;
+        };
         treesitter = {
           enable = true;
           indent.enable = false;
@@ -139,6 +142,10 @@
           enable = true;
           formatOnSave = true;
           inlayHints.enable = true;
+          trouble = {
+            enable = true;
+            mappings.documentDiagnostics = "<leader>xx";
+          };
           lightbulb.autocmd.enable = true;
           lspSignature.enable = true;
           mappings = {
@@ -193,7 +200,21 @@
           tabline.enable = true;
           animate.enable = true;
           move.enable = true;
+          surround.enable = true;
         };
+        luaConfigPost = ''
+          require('mini.surround').setup({
+            mappings = {
+              add = 'gsa',
+              delete = 'gsd',
+              find = 'gsf',
+              find_left = 'gsF',
+              highlight = 'gsh',
+              replace = 'gsr',
+              update_n_lines = 'gsn',
+            },
+          })
+        '';
 
         utility = {
           smart-splits.enable = true;

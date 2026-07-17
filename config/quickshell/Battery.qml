@@ -2,52 +2,53 @@ import Quickshell
 import Quickshell.Services.UPower
 import QtQuick
 import QtQuick.Layouts
+import "."
 
 RowLayout {
-  id: root
-  spacing: 6
+    id: root
+    spacing: 6
 
-  property color colPrimary: "#ffffff"
-  property color colWarning: "#e0af68"
-  property color colError: "#ff0000"
+    property var battery: UPower.displayDevice
+    readonly property bool isReady: battery && battery.ready
+    property bool charging: isReady && battery.state === UPowerDeviceState.Charging
+    readonly property int level: isReady ? Math.round(battery.percentage * 100) : 0
 
-  property string fontFamily: "JetBrainsMono Nerd Font"
-  property int fontSize: 14
+    function getProperties(percentage) {
+        if (root.charging)
+            return {
+                kolor: Theme.colStageFull,
+                icon: String.fromCodePoint(0xF0084)
+            };
+        if (percentage <= 20)
+            return {
+                kolor: Theme.colStageEmpty,
+                icon: String.fromCodePoint(0xF0079)
+            };
+        if (percentage <= 50)
+            return {
+                kolor: Theme.colStageLow,
+                icon: String.fromCodePoint(0xF0083)
+            };
+        if (percentage <= 80)
+            return {
+                kolor: Theme.colStageMedium,
+                icon: String.fromCodePoint(0xF0083)
+            };
 
-  property var battery: UPower.displayDevice
-  readonly property bool isReady: battery && battery.ready
-  property bool charging: isReady && battery.state === UPowerDeviceState.Charging
-  readonly property int level: isReady ? Math.round(battery.percentage * 100) : 0
-
-  readonly property string icon: {
-    if (charging)
-      return String.fromCodePoint(0xF0084);
-    if (level >= 100)
-      return String.fromCodePoint(0xF0079);
-    if (level < 10)
-      return String.fromCodePoint(0xF0083);
-
-    return String.fromCodePoint(0xF007A + Math.floor(level / 10) - 1);
-  }
-
-  Text {
-    text: root.icon
-    color: root.charging ? root.colPrimary : root.level <= 15 ? root.colError : root.level <= 50 ? root.colWarning : root.colPrimary
-
-    font {
-      family: root.fontFamily
-      pixelSize: root.fontSize
-      bold: true
+        return {
+            kolor: Theme.colStageFull,
+            icon: String.fromCodePoint(0xF007A + Math.floor(level / 10) - 1)
+        };
     }
-  }
 
-  Text {
-    text: root.level + "%"
-    color: "#ffffff"
-    font {
-      family: root.fontFamily
-      pixelSize: root.fontSize
-      bold: true
+    Text {
+        property var info: getProperties(root.level)
+        text: info.icon
+        color: info.kolor
+        font {
+            family: Theme.fontFamily
+            pixelSize: Theme.iconSize
+            bold: true
+        }
     }
-  }
 }

@@ -1,24 +1,21 @@
 import Quickshell
 import QtQuick
 import QtQuick.Layouts
+import "."
 
 RowLayout {
     id: root
     spacing: 6
 
-    property color colPrimary: "#ffffff"
-
-    property string fontFamily: "JetBrainsMono Nerd Font"
-    property int fontSize: 14
     property string clockFormat: "dddd dd-MMM hh:mm a"
 
     Text {
         id: clock
         text: Qt.formatDateTime(new Date(), root.clockFormat)
-        color: root.colPrimary
+        color: Theme.colText
         font {
-            family: root.fontFamily
-            pixelSize: root.fontSize
+            family: Theme.fontFamily
+            pixelSize: Theme.fontSize
             bold: true
         }
         Timer {
