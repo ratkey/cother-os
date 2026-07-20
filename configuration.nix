@@ -99,9 +99,17 @@
   };
 
   # --- Fonts ---
-  fonts.packages = with pkgs; [
-    nerd-fonts.jetbrains-mono
-  ];
+  fonts = {
+    fontconfig = {
+      enable = true;
+      defaultFonts = {
+        monospace = [ "JetBrains Mono Nerd Font" ];
+      };
+    };
+    packages = with pkgs; [
+      nerd-fonts.jetbrains-mono
+    ];
+  };
 
   # --- Hardware Support ---
   hardware.bluetooth = {

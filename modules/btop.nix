@@ -4,7 +4,7 @@
     enable = true;
 
     settings = {
-      color_theme = "gruvbox";
+      color_theme = "greyscale";
       theme_background = false;
       vim_keys = true;
     };

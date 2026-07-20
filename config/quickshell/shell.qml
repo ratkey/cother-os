@@ -34,6 +34,9 @@ Variants {
                     Layout.minimumWidth: 250
                     Layout.fillWidth: false
                     spacing: 8
+                    Item {
+                        Layout.preferredWidth: 1
+                    }
                     Clock {}
                 }
 
@@ -62,6 +65,9 @@ Variants {
                     Network {}
                     Volume {}
                     Battery {}
+                    Item {
+                        Layout.preferredWidth: 1
+                    }
                 }
             }
         }
