@@ -82,6 +82,21 @@
       silent = true;
       desc = "Remove unused imports";
     }
+    # sessions
+    {
+      key = "<leader>ss";
+      mode = [ "n" ];
+      action = "<cmd>SessionSave<CR>";
+      silent = true;
+      desc = "Save session";
+    }
+    {
+      key = "<leader>sl";
+      mode = [ "n" ];
+      action = "<cmd>SessionLoad<CR>";
+      silent = true;
+      desc = "Load session";
+    }
     # keep selection after indent
     {
       key = ">";
