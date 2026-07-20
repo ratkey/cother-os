@@ -6,4 +6,4 @@ config/nvim/.repro
 config/nvim/foo.*
 config/nvim/*.log
 config/nvim/data
-CLAUDE.MD
+CLAUDE.md
