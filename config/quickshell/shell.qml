@@ -37,7 +37,14 @@ Variants {
                     Item {
                         Layout.preferredWidth: 1
                     }
-                    Clock {}
+                    CPU {}
+                    RAM {}
+                    Network {}
+                    Volume {}
+                    Battery {}
+                    Item {
+                        Layout.fillWidth: true
+                    }
                 }
 
                 Item {
@@ -60,11 +67,7 @@ Variants {
                     Item {
                         Layout.fillWidth: true
                     }
-                    CPU {}
-                    RAM {}
-                    Network {}
-                    Volume {}
-                    Battery {}
+                    Clock {}
                     Item {
                         Layout.preferredWidth: 1
                     }

@@ -78,6 +78,7 @@
     xfce.thunar # GUI File manager (works natively in dark mode!)
     nwg-displays # GUI for configuring Monitors
     waypaper # GUI wallpaper selector for swww
+    lazygit # TUI for git
   ];
 
   programs.direnv = {
