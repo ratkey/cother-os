@@ -54,6 +54,10 @@
       bind-key -T copy-mode-vi C-v send-keys -X rectangle-toggle
       bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
 
+      # Move windows
+      bind-key -n M-C-h swap-window -t -1\; select-window -t -1
+      bind-key -n M-C-l swap-window -t +1\; select-window -t +1
+
       # Continuum / Resurrect settings
       set -g @resurrect-strategy-vim 'session'
       set -g @resurrect-strategy-nvim 'session'
