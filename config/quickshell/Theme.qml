@@ -47,4 +47,6 @@ QtObject {
     readonly property color colStageLow: colStage2
     readonly property color colStageMedium: colStage4
     readonly property color colStageFull: colStage8
+
+    readonly property var colStages: [colStage0, colStage1, colStage2, colStage3, colStage4, colStage5, colStage6, colStage7, colStage8]
 }

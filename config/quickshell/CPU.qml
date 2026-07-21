@@ -50,14 +50,17 @@ RowLayout {
         }
     }
 
-    function getColor(percentage) {
-        if (percentage <= 35)
-            return Theme.colPrimary;
-        if (percentage <= 50)
-            return Theme.colAccent;
-        if (percentage <= 80)
-            return Theme.colWarning;
-        return Theme.colError;
+    function lerpColor(a, b, t) {
+        return Qt.rgba(a.r + (b.r - a.r) * t, a.g + (b.g - a.g) * t, a.b + (b.b - a.b) * t, 1.0);
+    }
+
+    function getColor(p) {
+        const stages = Theme.colStages;
+        const t = Math.min(p / 100, 1.0) * (stages.length - 1);
+        const i = Math.floor(t);
+        if (i >= stages.length - 1)
+            return stages[stages.length - 1];
+        return lerpColor(stages[i], stages[i + 1], t - i);
     }
 
     Text {

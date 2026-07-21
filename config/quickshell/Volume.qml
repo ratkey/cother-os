@@ -14,9 +14,20 @@ RowLayout {
     readonly property bool muted: ready && sink.audio.muted
     readonly property int vol: ready ? Math.round(sink.audio.volume * 100) : 0
 
+    readonly property bool isHeadphone: ready && (
+        sink.description.toLowerCase().includes("headphone") ||
+        sink.description.toLowerCase().includes("headset") ||
+        sink.description.toLowerCase().includes("earphone") ||
+        sink.name.toLowerCase().includes("headphone") ||
+        sink.name.toLowerCase().includes("headset")
+    )
+
     readonly property string icon: {
         if (!ready || muted)
             return String.fromCodePoint(0xF0581);
+
+        if (isHeadphone)
+            return String.fromCodePoint(0xF02CB);
 
         if (vol == 0)
             return String.fromCodePoint(0xF0581);

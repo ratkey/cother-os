@@ -12,139 +12,29 @@ RowLayout {
     property bool charging: isReady && battery.state === UPowerDeviceState.Charging
     readonly property int level: isReady ? Math.round(battery.percentage * 100) : 0
 
-    property var levels: {
-        "lvl_10": {
-            "charging": {
-                icon: '󰢜',
-                kolor: Theme.colStageFull
-            },
-            "normal": {
-                icon: '󱃍',
-                kolor: Theme.colStage1
-            }
-        },
-        "lvl_20": {
-            "charging": {
-                icon: '󰂆',
-                kolor: Theme.colStageFull
-            },
-            "normal": {
-                icon: '󰁻',
-                kolor: Theme.colStage2
-            }
-        },
-        "lvl_30": {
-            "charging": {
-                icon: '󰂇',
-                kolor: Theme.colStageFull
-            },
-            "normal": {
-                icon: '󰁼',
-                kolor: Theme.colStage3
-            }
-        },
-        "lvl_40": {
-            "charging": {
-                icon: '󰂈',
-                kolor: Theme.colStageFull
-            },
-            "normal": {
-                icon: '󰁽',
-                kolor: Theme.colStage4
-            }
-        },
-        "lvl_50": {
-            "charging": {
-                icon: '󰢝',
-                kolor: Theme.colStageFull
-            },
-            "normal": {
-                icon: '󰁾',
-                kolor: Theme.colStage5
-            }
-        },
-        "lvl_60": {
-            "charging": {
-                icon: '󰂉',
-                kolor: Theme.colStageFull
-            },
-            "normal": {
-                icon: '󰁿',
-                kolor: Theme.colStage5
-            }
-        },
-        "lvl_70": {
-            "charging": {
-                icon: '󰢞',
-                kolor: Theme.colStageFull
-            },
-            "normal": {
-                icon: '󰂀',
-                kolor: Theme.colStage7
-            }
-        },
-        "lvl_80": {
-            "charging": {
-                icon: '󰂊',
-                kolor: Theme.colStageFull
-            },
-            "normal": {
-                icon: '󰂁',
-                kolor: Theme.colStage8
-            }
-        },
-        "lvl_90": {
-            "charging": {
-                icon: '󰂋',
-                kolor: Theme.colStageFull
-            },
-            "normal": {
-                icon: '󰂂',
-                kolor: Theme.colStage8
-            }
-        },
-        "lvl_100": {
-            "charging": {
-                icon: '󰂅',
-                kolor: Theme.colStageFull
-            },
-            "normal": {
-                icon: '󰁹',
-                kolor: Theme.colStageFull
-            }
-        },
-        "alert": {
-            icon: '󱃍',
-            kolor: Theme.colError
-        }
+    property var normalIcons: ['󱃍', '󰁻', '󰁼', '󰁽', '󰁾', '󰁿', '󰂀', '󰂁', '󰂂', '󰁹']
+    property var chargingIcons: ['󰢜', '󰂆', '󰂇', '󰂈', '󰢝', '󰂉', '󰢞', '󰂊', '󰂋', '󰂅']
+
+    function lerpColor(a, b, t) {
+        return Qt.rgba(a.r + (b.r - a.r) * t, a.g + (b.g - a.g) * t, a.b + (b.b - a.b) * t, 1.0);
+    }
+
+    function stageColor(p) {
+        const stages = Theme.colStages;
+        const t = Math.min(p / 100, 1.0) * (stages.length - 1);
+        const i = Math.floor(t);
+        if (i >= stages.length - 1)
+            return stages[stages.length - 1];
+        return lerpColor(stages[i], stages[i + 1], t - i);
     }
 
     function getProperties(percentage) {
-        var state = root.charging ? "charging" : "normal";
-        switch (true) {
-        case percentage >= 95:
-            return root.levels.lvl_100[state];
-        case percentage >= 90:
-            return root.levels.lvl_90[state];
-        case percentage >= 80:
-            return root.levels.lvl_80[state];
-        case percentage >= 70:
-            return root.levels.lvl_70[state];
-        case percentage >= 60:
-            return root.levels.lvl_60[state];
-        case percentage >= 50:
-            return root.levels.lvl_50[state];
-        case percentage >= 40:
-            return root.levels.lvl_40[state];
-        case percentage >= 30:
-            return root.levels.lvl_30[state];
-        case percentage >= 20:
-            return root.levels.lvl_20[state];
-        case percentage >= 10:
-            return root.levels.lvl_10[state];
-        default:
-            return root.levels.alert;
-        }
+        if (percentage < 10)
+            return { icon: '󱃍', kolor: Theme.colError };
+        const idx = percentage >= 95 ? 9 : Math.floor(percentage / 10) - 1;
+        const icons = root.charging ? root.chargingIcons : root.normalIcons;
+        const kolor = root.charging ? Theme.colStageFull : stageColor(percentage);
+        return { icon: icons[idx], kolor: kolor };
     }
 
     Text {

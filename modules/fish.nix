@@ -7,6 +7,7 @@
       ls = "eza --icons --group-directories-first";
       ll = "eza -lh --icons --git";
       lt = "eza --tree --icons";
+      ff = "fastfetch";
       gs = "git status";
       ga = "git add . && git status";
       gcm = "git commit -m";
